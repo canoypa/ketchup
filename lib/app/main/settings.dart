@@ -24,12 +24,6 @@ class SettingsPage extends StatelessWidget {
             },
             child: const Text("licenses"),
           ),
-          TextButton(
-            onPressed: () {
-              GoRouter.of(context).push("/privacy-and-terms");
-            },
-            child: const Text("privacy and terms"),
-          ),
         ],
       ),
     );

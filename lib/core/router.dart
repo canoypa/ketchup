@@ -5,7 +5,6 @@ import 'package:ketchup/app/main/home.dart';
 import 'package:ketchup/app/main/layout.dart';
 import 'package:ketchup/app/main/profile.dart';
 import 'package:ketchup/app/main/settings.dart';
-import 'package:ketchup/app/privacy_and_terms.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _mainNavigatorKey = GlobalKey<NavigatorState>();
@@ -35,11 +34,6 @@ final appRouter = GoRouter(
       parentNavigatorKey: _rootNavigatorKey,
       path: "/licenses",
       pageBuilder: buildLicensesPage,
-    ),
-    GoRoute(
-      parentNavigatorKey: _rootNavigatorKey,
-      path: "/privacy-and-terms",
-      pageBuilder: buildPrivacyAndTermsPage,
     ),
   ],
 );
