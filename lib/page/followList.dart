@@ -17,7 +17,6 @@ class _FollowListState extends State<FollowList> {
     return Container(
       color:Colors.white,
       child:Row(
-        // ignore: prefer_const_literals_to_create_immutables
         children: [
           Text("${followList[0].follow} 人を応援",style:TextStyle(
             backgroundColor: Colors.white,
