@@ -27,10 +27,7 @@ class _MyWidgetState extends State<MyWidget> {
           // ignore: prefer_const_literals_to_create_immutables
           children: [
             Profile(),
-            Padding(
-              padding: const EdgeInsets.only(top:16),
-              child: FollowList(),
-            ),
+            FollowList(),
           ],
         ),
       ),
