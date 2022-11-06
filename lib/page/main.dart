@@ -23,12 +23,15 @@ class _MyWidgetState extends State<MyWidget> {
         color: Colors.white,
         height:100,
         width:200,
-        child: Column(
-          // ignore: prefer_const_literals_to_create_immutables
-          children: [
-            Profile(),
-            FollowList(),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.only(top:24,left:16),
+          child: Column(
+            // ignore: prefer_const_literals_to_create_immutables
+            children: [
+              Profile(),
+              FollowList(),
+            ],
+          ),
         ),
       ),
     );

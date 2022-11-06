@@ -15,31 +15,28 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top:24,left:16),
-        child: Row(
-          crossAxisAlignment:CrossAxisAlignment.center,
-          textDirection:TextDirection.ltr,
-          children: [
-            CircleAvatar(
-              radius: 40,
-              backgroundImage: NetworkImage(userList[0].photoUrl),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left:16,bottom:8),
-              child: Text(
-                userList[0].displayName,
-                style:TextStyle(
-                  backgroundColor: Colors.white,
-                  color:Colors.black87,
-                  decoration:TextDecoration.none,
-                  fontFamily: 'Roboto',
-                  fontSize: 40,
-                ),
-              ),
-            ),
-          ],
+    return Row(
+      crossAxisAlignment:CrossAxisAlignment.center,
+      textDirection:TextDirection.ltr,
+      children: [
+        CircleAvatar(
+          radius: 40,
+          backgroundImage: NetworkImage(userList[0].photoUrl),
         ),
-      );
+        Padding(
+          padding: const EdgeInsets.only(left:16,bottom:8),
+          child: Text(
+            userList[0].displayName,
+            style:TextStyle(
+              backgroundColor: Colors.white,
+              color:Colors.black87,
+              decoration:TextDecoration.none,
+              fontFamily: 'Roboto',
+              fontSize: 40,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
