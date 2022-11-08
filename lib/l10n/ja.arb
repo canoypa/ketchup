@@ -14,5 +14,10 @@
         "type": "String"
       }
     }
-  }
+  },
+
+  "home": "ホーム",
+  "profile": "プロフィール",
+  "settings": "設定",
+  "license": "ライセンス"
 }

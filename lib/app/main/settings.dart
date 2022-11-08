@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:go_router/go_router.dart';
 
 Page<dynamic> buildSettingsPage(context, state) {
@@ -14,15 +15,17 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = L10n.of(context);
+
     return SafeArea(
       child: Column(
         children: [
-          const Text("settings"),
+          Text(l10n.settings),
           TextButton(
             onPressed: () {
               GoRouter.of(context).push("/licenses");
             },
-            child: const Text("licenses"),
+            child: Text(l10n.license),
           ),
         ],
       ),
