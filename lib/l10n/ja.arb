@@ -1,0 +1,18 @@
+{
+  "@@locale": "ja",
+  
+  "example": "Hello World!",
+  "@example": {
+    "description": "サンプル"
+  },
+
+  "argExample": "Hello, {name}!",
+  "@argExample": {
+    "description": "引数を受け取るサンプル",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
+}
