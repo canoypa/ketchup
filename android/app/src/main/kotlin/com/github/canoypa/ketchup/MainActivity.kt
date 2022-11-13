@@ -1,4 +1,4 @@
-package com.example.ketchup
+package com.github.canoypa.ketchup
 
 import io.flutter.embedding.android.FlutterActivity
 
