@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ketchup/components/Profile.dart';
-import 'package:ketchup/components/followList.dart';
-
-void main() {
-  runApp(const MyPage());
-}
+import 'package:ketchup/components/my_avatar.dart';
+import 'package:ketchup/components/follow_list.dart';
 
 class MyPage extends StatelessWidget {
   const MyPage({super.key});
@@ -19,7 +15,7 @@ class MyPage extends StatelessWidget {
         padding: const EdgeInsets.only(top:24,left:16),
         child: Column(
           children: const[
-            Profile(),
+            MyAvatar(),
             FollowList(),
           ],
         ),
