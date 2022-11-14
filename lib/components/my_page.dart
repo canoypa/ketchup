@@ -7,19 +7,12 @@ class MyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      height:100,
-      width:200,
-      child: Padding(
-        padding: const EdgeInsets.only(top:24,left:16),
-        child: Column(
-          children: const[
-            MyAvatar(),
-            FollowList(),
-          ],
-        ),
-      ),
+    return Column(
+      children: const [
+        MyAvatar(),
+        SizedBox(height: 16),
+        FollowList(),
+      ],
     );
   }
 }
