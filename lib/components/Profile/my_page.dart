@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ketchup/components/my_avatar.dart';
-import 'package:ketchup/components/follow_list.dart';
+import 'package:ketchup/components/Profile/my_avatar.dart';
+import 'package:ketchup/components/Profile/follow_list.dart';
 
 class MyPage extends StatelessWidget {
   const MyPage({super.key});
