@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ketchup/pomodoro/info.dart';
-import 'package:ketchup/pomodoro/interval.dart';
+import 'package:ketchup/store/pomodoro/info.dart';
+import 'package:ketchup/store/pomodoro/interval.dart';
 
 enum PomodoroStatus {
   waiting(),

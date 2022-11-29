@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ketchup/pomodoro/provider.dart';
+import 'package:ketchup/store/pomodoro/provider.dart';
 
 Page<dynamic> buildHomePage(context, state) {
   return const MaterialPage(
