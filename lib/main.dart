@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:ketchup/core/router.dart';
 import 'package:ketchup/core/theme.dart';
 
@@ -17,6 +18,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: appLightTheme,
       darkTheme: appDarkTheme,
+      localizationsDelegates: L10n.localizationsDelegates,
+      supportedLocales: L10n.supportedLocales,
       routerConfig: appRouter,
       builder: (context, child) {
         // 画面を最大限使用するための設定

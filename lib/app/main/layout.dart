@@ -1,33 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:go_router/go_router.dart';
 
 enum MainNavigation {
   home(
     path: "/",
-    label: "Home",
     icon: Icons.home_outlined,
     selectedIcon: Icons.home,
   ),
   profile(
     path: "/profile",
-    label: "Profile",
     icon: Icons.person_outline,
     selectedIcon: Icons.person,
   ),
   settings(
     path: "/settings",
-    label: "Settings",
     icon: Icons.settings_outlined,
     selectedIcon: Icons.settings,
   );
 
-  final String label;
   final IconData icon;
   final IconData selectedIcon;
   final String path;
 
   const MainNavigation({
-    required this.label,
     required this.icon,
     required this.selectedIcon,
     required this.path,
@@ -64,6 +60,19 @@ class MainLayout extends StatelessWidget {
     required this.child,
   });
 
+  String getPathLabel(BuildContext context, MainNavigation nav) {
+    final l10n = L10n.of(context);
+
+    switch (nav) {
+      case MainNavigation.home:
+        return l10n.home;
+      case MainNavigation.profile:
+        return l10n.profile;
+      case MainNavigation.settings:
+        return l10n.settings;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final selectedIndex = MainNavigation.fromSubloc(routerState.subloc).index;
@@ -79,7 +88,7 @@ class MainLayout extends StatelessWidget {
           return NavigationDestination(
             icon: Icon(v.icon),
             selectedIcon: Icon(v.selectedIcon),
-            label: v.label,
+            label: getPathLabel(context, v),
           );
         }).toList(),
       ),
