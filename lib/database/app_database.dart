@@ -1,3 +1,4 @@
+import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AppDatabase {
@@ -11,9 +12,8 @@ class AppDatabase {
   late final Future<Database> database = initializeDatabase();
 
   Future<Database> initializeDatabase() async {
-    final path = await getDatabasesPath();
     return await openDatabase(
-      "$path/app_database",
+      join(await getDatabasesPath(), "app_database"),
       version: 1,
       onCreate: _onCreate,
     );
