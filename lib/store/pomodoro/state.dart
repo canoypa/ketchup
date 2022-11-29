@@ -8,6 +8,7 @@ import 'package:ketchup/store/pomodoro/interval.dart';
 enum PomodoroStatus {
   waiting(),
   working(),
+  breaking(),
 }
 
 @immutable
@@ -108,7 +109,7 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
 
     // リセット
     state = state.copyWith(
-      status: PomodoroStatus.waiting,
+      status: PomodoroStatus.breaking,
       interval: null,
       timer: null,
     );
