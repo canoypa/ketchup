@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ketchup/components/Home/end_button.dart';
-import 'package:ketchup/components/Home/start_button.dart';
+import 'package:ketchup/components/Home/rest_time.dart';
+import 'package:ketchup/components/Home/toggle_button.dart';
 
 class HomeFooter extends StatelessWidget {
   const HomeFooter({super.key});
@@ -8,8 +8,9 @@ class HomeFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: const [
-        StartButton(),
-        EndButton(),
+        Text('頑張ってください～～'),
+        ToggleButton(),
+        RestTime()
       ],
     );
   }
