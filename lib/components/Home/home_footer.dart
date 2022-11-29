@@ -9,8 +9,14 @@ class HomeFooter extends StatelessWidget {
     return Column(
       children: const [
         Text('頑張ってください～～'),
-        ToggleButton(),
-        RestTime()
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal:32),
+          child: ToggleButton(),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal:32),
+          child: RestTime(),
+        )
       ],
     );
   }

@@ -7,39 +7,37 @@ class RestTime extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        LayoutBuilder(
-          builder: (context, constraints) {
-            return ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                foregroundColor:
-                    Theme.of(context).colorScheme.onPrimaryContainer,
-              ),
-              icon: const Icon(Icons.done_all),
-              label: const Text(
-                '終了する',
-              ),
-              onPressed: () {},
-            );
-          },
+        Expanded(
+          flex:1,
+          child: ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+            ),
+            icon: const Icon(Icons.done_all),
+            label: const Text(
+              '終了する',
+            ),
+            onPressed: () {},
+          ),
         ),
-        SizedBox(width: 8),
-                LayoutBuilder(
-          builder: (context, constraints) {
-            return ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                foregroundColor:
-                    Theme.of(context).colorScheme.onPrimaryContainer,
-              ),
-              icon: const Icon(Icons.done_all),
-              label: const Text(
-                '再開する',
-              ),
-              onPressed: () {},
-            );
-          },
-        )
+        const SizedBox(width: 8),
+        Expanded(
+          flex: 1,
+          child: ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+              padding: const EdgeInsets.symmetric(vertical: 10.0)
+            ),
+            icon: const Icon(Icons.play_arrow_outlined),
+            label: const Text(
+              '再開する',
+            ),
+            onPressed: () {},
+          ),
+        ),
       ],
     );
   }

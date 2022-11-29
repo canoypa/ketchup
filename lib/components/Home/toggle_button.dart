@@ -6,15 +6,15 @@ class ToggleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 300,
-      height: 50,
+      width: double.infinity,
       child: ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
           backgroundColor: Theme.of(context).colorScheme.primaryContainer,
           foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
         ),
         icon: const Icon( Icons.play_arrow_outlined ),
-        label: const Text('開始'),
+        label: const Text('はじめる'),
         onPressed: () {},
       ),
     );
