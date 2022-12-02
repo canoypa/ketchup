@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class PomodoroCard extends StatelessWidget {
   final String pomodoroTitle;
@@ -22,6 +23,9 @@ class PomodoroCard extends StatelessWidget {
         title: Text(pomodoroTitle),
         subtitle: Text(categoryTitle),
         trailing: Text('${minute.toString()}分'),
+        onTap: () {
+          GoRouter.of(context).push("/pomodoro");
+        },
       ),
     );
   }
