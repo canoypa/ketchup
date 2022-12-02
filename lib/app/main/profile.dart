@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/l10n.dart';
+import 'package:ketchup/components/Profile/my_page.dart';
 
 Page<dynamic> buildProfilePage(context, state) {
-  final l10n = L10n.of(context);
-
-  return MaterialPage(
-    child: SafeArea(
-      child: Text(l10n.profile),
-    ),
+  return const MaterialPage(
+    child: SafeArea(child: MyPage()),
   );
 }
