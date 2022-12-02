@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ketchup/components/Profile/my_avatar.dart';
 import 'package:ketchup/components/Profile/follow_list.dart';
+import 'package:ketchup/components/Profile/history_headline.dart';
 
 class MyPage extends StatelessWidget {
   const MyPage({super.key});
@@ -12,6 +13,7 @@ class MyPage extends StatelessWidget {
         MyAvatar(),
         SizedBox(height: 16),
         FollowList(),
+        HistoryHeadline(),
       ],
     );
   }
