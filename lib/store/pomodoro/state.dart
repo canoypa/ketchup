@@ -48,7 +48,7 @@ class PomodoroMeasure {
 class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
   // TODO: 引数とかで受け取る?
   final Duration _defaultPomodoroTime = const Duration(seconds: 25);
-  final Duration _defaultBreakingTime = const Duration(minutes: 5);
+  final Duration _defaultBreakingTime = const Duration(seconds: 5);
 
   PomodoroMeasureNotifier() : super(const PomodoroMeasure()) {
     saveInfo();
@@ -132,6 +132,8 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
   /// ポモドーロ全体を終了し、リセット
   void finish() {
     if (kDebugMode) print("done");
+
+    state.timer?.cancel();
 
     // 全てリセット
     state = const PomodoroMeasure();
