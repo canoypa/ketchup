@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ketchup/store/pomodoro/info.dart';
 import 'package:ketchup/store/pomodoro/interval.dart';
+import 'package:nanoid/nanoid.dart';
 
 enum PomodoroStatus {
   waiting(),
@@ -51,6 +52,13 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
   final Duration _defaultBreakingTime = const Duration(seconds: 5);
 
   PomodoroMeasureNotifier() : super(const PomodoroMeasure()) {
+    _initialize();
+  }
+
+  void _initialize() {
+    final info = state.info.copyWith(id: nanoid(16));
+    state = state.copyWith(info: info);
+
     saveInfo();
   }
 
@@ -59,7 +67,7 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
     String? categoryId,
     int? time,
   }) {
-    final info = PomodoroInfo(
+    final info = state.info.copyWith(
       title: title,
       categoryId: categoryId,
     );
@@ -79,7 +87,8 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
     // interval を登録して計測開始
     final startAt = DateTime.now();
     final endAt = startAt.add(_defaultPomodoroTime);
-    final interval = PomodoroInterval(startAt: startAt, endAt: endAt);
+    final interval =
+        PomodoroInterval(id: nanoid(16), startAt: startAt, endAt: endAt);
 
     state = state.copyWith(
       status: PomodoroStatus.working,
@@ -110,7 +119,8 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
 
     final startAt = DateTime.now();
     final endAt = startAt.add(_defaultBreakingTime);
-    final interval = PomodoroInterval(startAt: startAt, endAt: endAt);
+    final interval =
+        PomodoroInterval(id: nanoid(16), startAt: startAt, endAt: endAt);
 
     // 休憩時間に入る
     state = state.copyWith(
@@ -136,7 +146,8 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
     state.timer?.cancel();
 
     // 全てリセット
-    state = const PomodoroMeasure();
+    final info = PomodoroInfo(id: nanoid(16));
+    state = PomodoroMeasure(info: info);
   }
 
   /// タイトルなどを保存
