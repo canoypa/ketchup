@@ -29,13 +29,13 @@ class PomodoroTest extends ConsumerWidget {
         ),
         OutlinedButton(
           onPressed: () {
-            pomodoroNotifier.doneInterval();
+            pomodoroNotifier.doneWork();
           },
           child: const Text("DONE"),
         ),
         OutlinedButton(
           onPressed: () {
-            pomodoroNotifier.done();
+            pomodoroNotifier.finish();
           },
           child: const Text("DONE ALL"),
         ),

@@ -84,12 +84,12 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
     state = state.copyWith(
       status: PomodoroStatus.working,
       interval: interval,
-      timer: Timer(_defaultPomodoroTime, doneInterval),
+      timer: Timer(_defaultPomodoroTime, doneWork),
     );
   }
 
   /// 1ポモドーロを終了
-  void doneInterval() async {
+  void doneWork() async {
     if (kDebugMode) print("done interval");
 
     // 早く終わった場合、その時間で更新する
@@ -130,7 +130,7 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
   }
 
   /// ポモドーロ全体を終了し、リセット
-  void done() {
+  void finish() {
     if (kDebugMode) print("done");
 
     // 全てリセット
