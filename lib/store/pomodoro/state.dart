@@ -47,7 +47,8 @@ class PomodoroMeasure {
 
 class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
   // TODO: 引数とかで受け取る?
-  final Duration _defaultPomodoroTime = const Duration(seconds: 10);
+  final Duration _defaultPomodoroTime = const Duration(seconds: 25);
+  final Duration _defaultBreakingTime = const Duration(minutes: 5);
 
   PomodoroMeasureNotifier() : super(const PomodoroMeasure()) {
     saveInfo();
@@ -107,20 +108,30 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
 
     saveInterval();
 
-    // リセット
+    final startAt = DateTime.now();
+    final endAt = startAt.add(_defaultBreakingTime);
+    final interval = PomodoroInterval(startAt: startAt, endAt: endAt);
+
+    // 休憩時間に入る
     state = state.copyWith(
       status: PomodoroStatus.breaking,
-      interval: null,
-      timer: null,
+      interval: interval,
+      timer: Timer(_defaultBreakingTime, doneBreak),
     );
+  }
+
+  // 休憩時間の終了処理
+  void doneBreak() {
+    if (kDebugMode) print("done break");
+
+    state.timer?.cancel();
+
+    start();
   }
 
   /// ポモドーロ全体を終了し、リセット
   void done() {
     if (kDebugMode) print("done");
-
-    // 終了処理
-    doneInterval();
 
     // 全てリセット
     state = const PomodoroMeasure();
@@ -129,10 +140,14 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
   /// タイトルなどを保存
   Future<void> saveInfo() async {
     if (kDebugMode) print("save info");
+
+    // db アクセス
   }
 
   /// 1ポモドーロを保存
   Future<void> saveInterval() async {
     if (kDebugMode) print("save interval");
+
+    // db アクセス
   }
 }
