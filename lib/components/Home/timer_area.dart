@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ketchup/components/Home/home_footer.dart';
+import 'package:ketchup/components/Home/circular_progress.dart';
+import 'package:ketchup/components/Home/timer_label.dart';
 
 class TimerArea extends StatelessWidget {
   const TimerArea({super.key});
@@ -8,16 +10,22 @@ class TimerArea extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Column(
-        children: const [
+        children: [
           Expanded(
             child: Center(
-              child: Text('25分'),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  TimerLabel(),
+                  CircularProgress(intervalTime: 25),
+                ],
+              ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
-          HomeFooter(),
+          const HomeFooter(),
         ],
       ),
     );
