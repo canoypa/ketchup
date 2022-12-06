@@ -1,0 +1,50 @@
+name: Upload Internal
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 11
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Flutter Pub Get
+        run: flutter pub get
+      - name: Create upload.keystore
+        run: echo '${{ secrets.ENCODED_UPLOAD_KEYSTORE }}' | base64 -d > android/app/upload.keystore
+      - name: Create key.properties
+        run: |
+          echo 'storeFile=upload.keystore' > android/key.properties
+          echo 'keyAlias=${{ secrets.KEY_ALIAS }}' >> android/key.properties
+          echo 'storePassword=${{ secrets.STORE_PASSWORD }}' >> android/key.properties
+          echo 'keyPassword=${{ secrets.KEY_PASSWORD }}' >> android/key.properties
+      - name: Set Build Version
+        run: |
+          echo "BUILD_NAME=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
+          echo "BUILD_NUMBER=$(git rev-list HEAD --count)" >> $GITHUB_ENV
+      - name: Build AAB
+        run: flutter build appbundle --build-name ${{ env.BUILD_NAME }} --build-number ${{ env.BUILD_NUMBER }}
+      - name: Upload to Google Play
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT }}
+          packageName: dev.tepbyte.android_test_app_hXBBGy4M
+          releaseFiles: build/app/outputs/bundle/release/app-release.aab
+          mappingFile: build/app/outputs/mapping/release/mapping.txt
+          track: internal
+          status: draft # TODO: can remove after prod release?
