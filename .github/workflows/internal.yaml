@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
 
+concurrency:
+  group: upload-internal
+  cancel-in-progress: true
+
 jobs:
   upload:
     runs-on: ubuntu-latest
