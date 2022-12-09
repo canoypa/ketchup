@@ -75,5 +75,13 @@ class AppDatabase {
     );
   }
 
-
+    Future runUpdate(Database db,POMODORO pomodoro) async {
+    return (
+      db.update(
+        'POMODORO',
+        pomodoro.toMap(),
+        where: 'id = ?',whereArgs: [pomodoro.pomodoro_id]
+      )
+    );
+  }
 }
