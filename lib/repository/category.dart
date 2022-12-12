@@ -36,7 +36,7 @@ class CategoryRepository {
     await db.update(
         'CATEGORY',
         obj,
-        where: 'id = ?',whereArgs: [obj["category_id"]]
+        where: 'id = ?',whereArgs: [obj["category_id"]],
       )
     );
   }

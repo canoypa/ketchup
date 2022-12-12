@@ -19,10 +19,9 @@ static  final _db = AppDatabase();
     );
   }
 
-  //toMapした結果を受け取って、
+
   static Future runUpdate(Map<String,dynamic>obj) async {
     final db = await _db.database;
-
     return (
     await db.update(
         'POMODORO',
@@ -32,4 +31,17 @@ static  final _db = AppDatabase();
     );
   }
 
+  static Future getHistory(Map<String,dynamic>obj) async {
+    final db = await _db.database;
+    return (
+      await db.rawQuery(
+        '''
+        SELECT id,title,color,SUM(end_at-start_at)
+        FROM POMODORO 
+        LEFT JOIN POMODORO_INTERVAL ON id = pomodoro_id, 
+        LEFT JOIN CATEGORY ON category_id = id 
+        '''
+      )
+    );
+  }
 }
