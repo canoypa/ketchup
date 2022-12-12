@@ -8,7 +8,7 @@ class PomodoroIntervalRepository {
 
     return (
       await db.insert(
-        'POMODORO',
+        'POMODORO_INTERVAL',
         obj
       )
     );

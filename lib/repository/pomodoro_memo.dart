@@ -8,7 +8,7 @@ static  final _db = AppDatabase();
 
     return (
       await db.insert(
-        'POMODORO',
+        'POMODORO_MEMO',
         obj
       )
     );
