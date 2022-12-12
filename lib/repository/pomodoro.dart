@@ -38,8 +38,8 @@ static  final _db = AppDatabase();
         '''
         SELECT POMODORO.id,POMODORO.title,color,SUM(end_at-start_at)
         FROM POMODORO 
-        LEFT JOIN POMODORO_INTERVAL ON id = pomodoro_id, 
-        LEFT JOIN CATEGORY ON category_id = id 
+        LEFT OUTER JOIN POMODORO_INTERVAL ON id = pomodoro_id, 
+        LEFT OUTER JOIN CATEGORY ON category_id = id 
         GROUP BY POMODORO.id
         '''
       )
