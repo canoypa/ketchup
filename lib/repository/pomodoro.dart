@@ -36,10 +36,11 @@ static  final _db = AppDatabase();
     return (
       await db.rawQuery(
         '''
-        SELECT id,title,color,SUM(end_at-start_at)
+        SELECT POMODORO.id,POMODORO.title,color,SUM(end_at-start_at)
         FROM POMODORO 
         LEFT JOIN POMODORO_INTERVAL ON id = pomodoro_id, 
         LEFT JOIN CATEGORY ON category_id = id 
+        GROUP BY POMODORO.id
         '''
       )
     );
