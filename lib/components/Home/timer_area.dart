@@ -1,31 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:ketchup/components/Home/home_footer.dart';
 import 'package:ketchup/components/Home/circular_progress.dart';
-import 'package:ketchup/components/Home/timer_label.dart';
 
 class TimerArea extends StatelessWidget {
-  const TimerArea({super.key});
+  final Duration progressTime;
+  //
+
+  const TimerArea({
+    super.key,
+    this.progressTime = const Duration(seconds: 25),
+  });
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: Column(
-        children: [
-          Expanded(
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: const [
-                  TimerLabel(),
-                  CircularProgress(intervalTime: 25),
-                ],
-              ),
-            ),
+    return Stack(
+      alignment: AlignmentDirectional.center,
+      children: [
+        const CircularProgress(value: 0.8),
+        Text(
+          '${progressTime.inSeconds}分',
+          style: TextStyle(
+            fontSize: 45,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
-          const SizedBox(height: 16),
-          const HomeFooter(),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
