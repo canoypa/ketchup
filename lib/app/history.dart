@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ketchup/components/History/pomodoro_card.dart';
 
 Page<dynamic> buildHistoryPage(context, state) {
@@ -24,13 +25,7 @@ class History extends StatelessWidget {
             fontSize: 28,
           ),
         ),
-        Row(
-          children: const [
-            _CategoryChip(categoryTitle: "勉強"),
-            _CategoryChip(categoryTitle: "読書"),
-            _CategoryChip(categoryTitle: "なんか"),
-          ],
-        ),
+        const CategoryChoice(),
         PomodoroCard(
           pomodoroTitle: 'データサイエンス',
           categoryTitle: '勉強',
@@ -54,19 +49,40 @@ class History extends StatelessWidget {
   }
 }
 
-class _CategoryChip extends StatelessWidget {
-  final String categoryTitle;
+final categoryChoiceState = StateProvider<String?>(
+  (ref) => null,
+);
 
-  const _CategoryChip({
-    required this.categoryTitle,
+final categoriesState = StateProvider<List<String>>(
+  (ref) => ["勉強", "読書", "なんか"],
+);
+
+class CategoryChoice extends ConsumerWidget {
+  const CategoryChoice({
+    super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Chip(
-      label: Text(
-        categoryTitle,
-        style: Theme.of(context).textTheme.labelLarge,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final categories = ref.watch(categoriesState);
+    final choseCategory = ref.watch(categoryChoiceState);
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: categories.map((category) {
+          return ChoiceChip(
+            label: Text(
+              category,
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
+            selected: choseCategory == category,
+            onSelected: (b) {
+              ref.read(categoryChoiceState.notifier).state =
+                  b ? category : null;
+            },
+          );
+        }).toList(),
       ),
     );
   }
