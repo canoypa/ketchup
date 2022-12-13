@@ -14,7 +14,7 @@ Page<dynamic> buildHistoryPage(context, state) {
       return SharedAxisTransition(
         animation: animation,
         secondaryAnimation: secondaryAnimation,
-        transitionType: SharedAxisTransitionType.vertical,
+        transitionType: SharedAxisTransitionType.horizontal,
         child: child,
       );
     },
