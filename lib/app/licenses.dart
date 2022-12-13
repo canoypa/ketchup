@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -16,18 +18,25 @@ class MyLicensePage extends StatefulWidget {
 
 class MyLicensePageState extends State<MyLicensePage> {
   List<List<String>> licenses = [];
+  StreamSubscription? _subscription;
 
   @override
   void initState() {
     super.initState();
 
-    LicenseRegistry.licenses.listen((l) {
+    _subscription = LicenseRegistry.licenses.listen((l) {
       final packageName = l.packages.toList().map((e) => e).join('');
       final paragraphText = l.paragraphs.toList().map((e) => e.text).join('\n');
 
       licenses.add([packageName, paragraphText]);
       setState(() => licenses = licenses);
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _subscription?.cancel();
   }
 
   @override
