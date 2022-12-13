@@ -2,13 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 Page<dynamic> buildLicensesPage(context, state) {
-  return const MaterialPage(
-    child: Scaffold(
-      body: SafeArea(
-        child: MyLicensePage(),
-      ),
-    ),
-  );
+  return const MaterialPage(child: MyLicensePage());
 }
 
 class MyLicensePage extends StatefulWidget {
