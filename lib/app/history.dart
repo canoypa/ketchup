@@ -64,11 +64,9 @@ class _CategoryChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Chip(
-      side: const BorderSide(width: 1, color: Color(0xff49454E)),
-      backgroundColor: Colors.white,
       label: Text(
         categoryTitle,
-        style: const TextStyle(fontSize: 14),
+        style: Theme.of(context).textTheme.labelLarge,
       ),
     );
   }
