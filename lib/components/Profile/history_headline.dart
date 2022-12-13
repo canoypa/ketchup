@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ketchup/app/history.dart';
 import 'package:ketchup/components/History/pomodoro_card.dart';
 
 class HistoryHeadline extends StatelessWidget {
@@ -19,7 +18,7 @@ class HistoryHeadline extends StatelessWidget {
             const Spacer(),
             TextButton(
               onPressed: () {
-                GoRouter.of(context).push("/history");
+                GoRouter.of(context).push("/profile/history");
               },
               child: const Text('全て表示'),
             ),
