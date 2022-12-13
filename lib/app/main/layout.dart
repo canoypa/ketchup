@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:go_router/go_router.dart';
@@ -42,11 +43,20 @@ Page<dynamic> buildMainLayout(
   GoRouterState state,
   Widget child,
 ) {
-  return MaterialPage(
+  return CustomTransitionPage(
+    key: state.pageKey,
     child: MainLayout(
       routerState: state,
       child: child,
     ),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return SharedAxisTransition(
+        animation: animation,
+        secondaryAnimation: secondaryAnimation,
+        transitionType: SharedAxisTransitionType.horizontal,
+        child: child,
+      );
+    },
   );
 }
 

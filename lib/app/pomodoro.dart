@@ -1,10 +1,21 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:ketchup/components/pomodoro/pomodoro_summary.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ketchup/components/pomodoro/pomodoro_memo.dart';
+import 'package:ketchup/components/pomodoro/pomodoro_summary.dart';
 
 Page<dynamic> buildPomodoroPage(context, state) {
-  return const MaterialPage(
-    child: Pomodoro(),
+  return CustomTransitionPage(
+    key: state.pageKey,
+    child: const Pomodoro(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return SharedAxisTransition(
+        animation: animation,
+        secondaryAnimation: secondaryAnimation,
+        transitionType: SharedAxisTransitionType.horizontal,
+        child: child,
+      );
+    },
   );
 }
 

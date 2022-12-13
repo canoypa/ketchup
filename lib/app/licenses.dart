@@ -1,8 +1,21 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 Page<dynamic> buildLicensesPage(context, state) {
-  return const MaterialPage(child: MyLicensePage());
+  return CustomTransitionPage(
+    key: state.pageKey,
+    child: const MyLicensePage(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return SharedAxisTransition(
+        animation: animation,
+        secondaryAnimation: secondaryAnimation,
+        transitionType: SharedAxisTransitionType.horizontal,
+        child: child,
+      );
+    },
+  );
 }
 
 class MyLicensePage extends StatefulWidget {
