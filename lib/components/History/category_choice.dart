@@ -22,19 +22,22 @@ class CategoryChoice extends ConsumerWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: categories.map((category) {
-          return ChoiceChip(
-            label: Text(
-              category,
-              style: Theme.of(context).textTheme.labelLarge,
-            ),
-            selected: choseCategory == category,
-            onSelected: (b) {
-              ref.read(categoryChoiceState.notifier).state =
-                  b ? category : null;
-            },
-          );
-        }).toList(),
+        children: categories
+            .map((category) {
+              return ChoiceChip(
+                label: Text(
+                  category,
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+                selected: choseCategory == category,
+                onSelected: (b) {
+                  ref.read(categoryChoiceState.notifier).state =
+                      b ? category : null;
+                },
+              );
+            })
+            .expand((c) => [c, const SizedBox(width: 8)])
+            .toList(),
       ),
     );
   }

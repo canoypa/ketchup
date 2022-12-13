@@ -25,7 +25,9 @@ class History extends StatelessWidget {
             fontSize: 28,
           ),
         ),
+        SizedBox(height: 16),
         CategoryChoice(),
+        SizedBox(height: 16),
         PomodoroList()
       ],
     );
