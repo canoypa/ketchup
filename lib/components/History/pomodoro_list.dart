@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ketchup/components/History/category_choice.dart';
 import 'package:ketchup/components/History/pomodoro_card.dart';
 
-class PomodoroList extends StatelessWidget {
+final pomodoroListState =
+    FutureProvider.autoDispose<List<dynamic>>((ref) async {
+  final categoryChoice = ref.watch(categoryChoiceState);
+
+  // TODO: 一覧取得する
+  return await Future.value([]);
+});
+
+class PomodoroList extends ConsumerWidget {
   const PomodoroList({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Future.value(), // TODO: 一覧取得する
-      builder: (context, snapshot) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final pomodoroList = ref.watch(pomodoroListState);
+
+    return pomodoroList.when(
+      data: (data) {
         return Flexible(
           child: ListView(
             children: [
@@ -35,6 +46,12 @@ class PomodoroList extends StatelessWidget {
             ],
           ),
         );
+      },
+      loading: () {
+        return const SizedBox();
+      },
+      error: (error, stackTrace) {
+        return const SizedBox();
       },
     );
   }
