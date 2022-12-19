@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ketchup/components/page_builder/page_builder.dart';
 
-Page<dynamic> buildSettingsPage(context, state) {
-  return const MaterialPage(
-    child: SettingsPage(),
-  );
-}
-
-class SettingsPage extends StatelessWidget {
-  const SettingsPage({
-    super.key,
-  });
+class SettingsPage extends PageBuilder {
+  const SettingsPage();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, GoRouterState state) {
     final l10n = L10n.of(context);
 
     return SafeArea(
