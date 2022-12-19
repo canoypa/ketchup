@@ -25,12 +25,6 @@ final appRouter = GoRouter(
         GoRoute(
           path: "/profile",
           pageBuilder: buildProfilePage,
-          routes: [
-            GoRoute(
-              path: "history",
-              pageBuilder: buildHistoryPage,
-            ),
-          ],
         ),
         GoRoute(
           path: "/settings",
@@ -40,13 +34,18 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       parentNavigatorKey: _rootNavigatorKey,
-      path: "/licenses",
-      pageBuilder: buildLicensesPage,
+      path: "/history",
+      pageBuilder: buildHistoryPage,
     ),
     GoRoute(
       parentNavigatorKey: _rootNavigatorKey,
       path: "/pomodoro",
       pageBuilder: buildPomodoroPage,
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
+      path: "/licenses",
+      pageBuilder: buildLicensesPage,
     ),
   ],
 );

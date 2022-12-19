@@ -18,7 +18,7 @@ class HistoryHeadline extends StatelessWidget {
             const Spacer(),
             TextButton(
               onPressed: () {
-                GoRouter.of(context).push("/profile/history");
+                GoRouter.of(context).push("/history");
               },
               child: const Text('全て表示'),
             ),
