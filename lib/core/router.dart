@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ketchup/app/licenses.dart';
 import 'package:ketchup/app/history.dart';
-import 'package:ketchup/app/pomodoro.dart';
+import 'package:ketchup/app/licenses.dart';
 import 'package:ketchup/app/main/home.dart';
 import 'package:ketchup/app/main/layout.dart';
 import 'package:ketchup/app/main/profile.dart';
 import 'package:ketchup/app/main/settings.dart';
+import 'package:ketchup/app/pomodoro.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _mainNavigatorKey = GlobalKey<NavigatorState>();
@@ -34,11 +34,6 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       parentNavigatorKey: _rootNavigatorKey,
-      path: "/licenses",
-      pageBuilder: buildLicensesPage,
-    ),
-    GoRoute(
-      parentNavigatorKey: _rootNavigatorKey,
       path: "/history",
       pageBuilder: buildHistoryPage,
     ),
@@ -46,6 +41,11 @@ final appRouter = GoRouter(
       parentNavigatorKey: _rootNavigatorKey,
       path: "/pomodoro",
       pageBuilder: buildPomodoroPage,
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
+      path: "/licenses",
+      pageBuilder: buildLicensesPage,
     ),
   ],
 );
