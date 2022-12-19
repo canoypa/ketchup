@@ -15,7 +15,7 @@ class TimerArea extends StatelessWidget {
     return Stack(
       alignment: AlignmentDirectional.center,
       children: [
-        const CircularProgress(value: 0.8),
+        const CircularProgress(),
         Text(
           '${progressTime.inSeconds}分',
           style: TextStyle(
