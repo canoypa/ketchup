@@ -22,29 +22,27 @@ class PomodoroList extends ConsumerWidget {
 
     return pomodoroList.when(
       data: (data) {
-        return Flexible(
-          child: ListView(
-            children: [
-              PomodoroCard(
-                pomodoroTitle: 'データサイエンス',
-                categoryTitle: '勉強',
-                categoryColor: Colors.deepOrange.shade200,
-                minute: 80,
-              ),
-              PomodoroCard(
-                pomodoroTitle: '機械学習',
-                categoryTitle: '勉強',
-                categoryColor: Colors.blue.shade200,
-                minute: 100,
-              ),
-              PomodoroCard(
-                pomodoroTitle: 'なんか',
-                categoryTitle: '読書',
-                categoryColor: Colors.green.shade200,
-                minute: 0,
-              ),
-            ],
-          ),
+        return ListView(
+          children: [
+            PomodoroCard(
+              pomodoroTitle: 'データサイエンス',
+              categoryTitle: '勉強',
+              categoryColor: Colors.deepOrange.shade200,
+              minute: 80,
+            ),
+            PomodoroCard(
+              pomodoroTitle: '機械学習',
+              categoryTitle: '勉強',
+              categoryColor: Colors.blue.shade200,
+              minute: 100,
+            ),
+            PomodoroCard(
+              pomodoroTitle: 'なんか',
+              categoryTitle: '読書',
+              categoryColor: Colors.green.shade200,
+              minute: 0,
+            ),
+          ],
         );
       },
       loading: () {
