@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:ketchup/components/pomodoro/pomodoro_summary.dart';
+import 'package:go_router/go_router.dart';
+import 'package:ketchup/components/page_builder/page_builder.dart';
 import 'package:ketchup/components/pomodoro/pomodoro_memo.dart';
+import 'package:ketchup/components/pomodoro/pomodoro_summary.dart';
 
-Page<dynamic> buildPomodoroPage(context, state) {
-  return const MaterialPage(
-    child: Pomodoro(),
-  );
-}
-
-class Pomodoro extends StatelessWidget {
-  const Pomodoro({
-    super.key,
-  });
+class PomodoroPage extends PageBuilder {
+  const PomodoroPage();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, GoRouterState state) {
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[

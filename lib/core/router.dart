@@ -16,36 +16,36 @@ final appRouter = GoRouter(
   routes: [
     ShellRoute(
       navigatorKey: _mainNavigatorKey,
-      pageBuilder: buildMainLayout,
+      pageBuilder: const MainLayout().buildLayout,
       routes: [
         GoRoute(
           path: "/",
-          pageBuilder: buildHomePage,
+          pageBuilder: const HomePage().buildPage,
         ),
         GoRoute(
           path: "/profile",
-          pageBuilder: buildProfilePage,
+          pageBuilder: const ProfilePage().buildPage,
         ),
         GoRoute(
           path: "/settings",
-          pageBuilder: buildSettingsPage,
+          pageBuilder: const SettingsPage().buildPage,
         )
       ],
     ),
     GoRoute(
       parentNavigatorKey: _rootNavigatorKey,
       path: "/history",
-      pageBuilder: buildHistoryPage,
+      pageBuilder: const HistoryPage().buildPage,
     ),
     GoRoute(
       parentNavigatorKey: _rootNavigatorKey,
       path: "/pomodoro",
-      pageBuilder: buildPomodoroPage,
+      pageBuilder: const PomodoroPage().buildPage,
     ),
     GoRoute(
       parentNavigatorKey: _rootNavigatorKey,
       path: "/licenses",
-      pageBuilder: buildLicensesPage,
+      pageBuilder: const AppLicensesPage().buildPage,
     ),
   ],
 );
