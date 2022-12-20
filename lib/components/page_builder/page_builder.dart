@@ -9,6 +9,7 @@ abstract class PageBuilder {
     GoRouterState state,
   ) {
     return CustomTransitionPage(
+      key: state.pageKey,
       child: Builder(
         builder: (context) => build(context, state),
       ),
@@ -46,6 +47,7 @@ abstract class LayoutPageBuilder {
     Widget child,
   ) {
     return CustomTransitionPage(
+      key: state.pageKey,
       child: Builder(
         builder: (context) => build(context, state, child),
       ),
