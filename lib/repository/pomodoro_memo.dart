@@ -5,7 +5,7 @@ class PomodoroMemoRepository {
   
   static Future intervalQuery(Map<String,dynamic> obj) async {
     final db = await _db.database;
-    return await db.query('POMODORO_MEMO',where: 'id = ?',whereArgs: [obj[pomodoro_id]]);
+    return await db.query('POMODORO_MEMO',where: 'id = ?',whereArgs: [obj['pomodoro_id']]);
   }
 
   static Future memoInsert(Map<String,dynamic> obj) async {
