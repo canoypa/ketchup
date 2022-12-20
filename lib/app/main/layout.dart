@@ -2,6 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ketchup/components/page_builder/page_builder.dart';
 
 enum MainNavigation {
   home(
@@ -38,37 +39,8 @@ enum MainNavigation {
   }
 }
 
-Page<dynamic> buildMainLayout(
-  BuildContext context,
-  GoRouterState state,
-  Widget child,
-) {
-  return CustomTransitionPage(
-    key: state.pageKey,
-    child: MainLayout(
-      routerState: state,
-      child: child,
-    ),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      return SharedAxisTransition(
-        animation: animation,
-        secondaryAnimation: secondaryAnimation,
-        transitionType: SharedAxisTransitionType.horizontal,
-        child: child,
-      );
-    },
-  );
-}
-
-class MainLayout extends StatelessWidget {
-  final GoRouterState routerState;
-  final Widget child;
-
-  const MainLayout({
-    super.key,
-    required this.routerState,
-    required this.child,
-  });
+class MainLayout extends LayoutPageBuilder {
+  const MainLayout();
 
   String getPathLabel(BuildContext context, MainNavigation nav) {
     final l10n = L10n.of(context);
@@ -84,8 +56,8 @@ class MainLayout extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final selectedIndex = MainNavigation.fromSubloc(routerState.subloc).index;
+  Widget build(BuildContext context, GoRouterState state, Widget child) {
+    final selectedIndex = MainNavigation.fromSubloc(state.subloc).index;
 
     return Scaffold(
       body: child,
@@ -102,6 +74,21 @@ class MainLayout extends StatelessWidget {
           );
         }).toList(),
       ),
+    );
+  }
+
+  @override
+  Widget transitionBuilder(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    return SharedAxisTransition(
+      animation: animation,
+      secondaryAnimation: secondaryAnimation,
+      transitionType: SharedAxisTransitionType.horizontal,
+      child: child,
     );
   }
 }

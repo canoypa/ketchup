@@ -1,31 +1,15 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ketchup/components/page_builder/page_builder.dart';
 import 'package:ketchup/components/pomodoro/pomodoro_memo.dart';
 import 'package:ketchup/components/pomodoro/pomodoro_summary.dart';
 
-Page<dynamic> buildPomodoroPage(context, state) {
-  return CustomTransitionPage(
-    key: state.pageKey,
-    child: const Pomodoro(),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      return SharedAxisTransition(
-        animation: animation,
-        secondaryAnimation: secondaryAnimation,
-        transitionType: SharedAxisTransitionType.horizontal,
-        child: child,
-      );
-    },
-  );
-}
-
-class Pomodoro extends StatelessWidget {
-  const Pomodoro({
-    super.key,
-  });
+class PomodoroPage extends PageBuilder {
+  const PomodoroPage();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, GoRouterState state) {
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -50,6 +34,21 @@ class Pomodoro extends StatelessWidget {
           PomodoroMemo(),
         ],
       ),
+    );
+  }
+
+  @override
+  Widget transitionBuilder(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    return SharedAxisTransition(
+      animation: animation,
+      secondaryAnimation: secondaryAnimation,
+      transitionType: SharedAxisTransitionType.horizontal,
+      child: child,
     );
   }
 }
