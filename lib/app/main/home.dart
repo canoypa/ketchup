@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ketchup/components/Home/timer_area.dart';
+import 'package:ketchup/components/Home/home_page.dart';
 
 Page<dynamic> buildHomePage(context, state) {
   return const MaterialPage(
-    child: SafeArea(child: TimerArea()),
+    child: SafeArea(child: HomePage()),
   );
 }

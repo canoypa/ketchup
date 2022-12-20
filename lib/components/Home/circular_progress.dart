@@ -1,58 +1,63 @@
 import 'package:flutter/material.dart';
-import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ketchup/store/pomodoro/provider.dart';
 
-class CircularProgress extends StatelessWidget {
-  final double intervalTime;
+class CircularProgress extends ConsumerStatefulWidget {
+  const CircularProgress({Key? key}) : super(key: key);
 
-  const CircularProgress({super.key, required this.intervalTime});
+  @override
+  CircularProgressState createState() => CircularProgressState();
+}
+
+class CircularProgressState extends ConsumerState<CircularProgress>
+    with SingleTickerProviderStateMixin {
+  late final Ticker _ticker;
+  late DateTime _time;
+
+  @override
+  void initState() {
+    super.initState();
+    _time = DateTime.now();
+    _ticker = createTicker((elapsed) {
+      setState(() {
+        _time = DateTime.now();
+      });
+    });
+    _ticker.start();
+  }
+
+  @override
+  void dispose() {
+    _ticker.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SimpleCircularProgressBar(
-      size: 256,
-      maxValue: intervalTime,
-      progressStrokeWidth: 8,
-      backStrokeWidth: 8,
-      animationDuration: (intervalTime * 60).toInt(),
-      progressColors: [Theme.of(context).colorScheme.primary],
-      backColor: Theme.of(context).colorScheme.surfaceVariant,
-      mergeMode: true,
-      onGetText: (value) {
-        return Text(
-          '${value.toInt()}分',
-          style: TextStyle(
-              fontSize: 45, color: Theme.of(context).colorScheme.onSurface),
-        );
-      },
+    final pomodoroState = ref.watch(pomodoroTimerProvider);
+
+    DateTime startAt;
+    Duration intervalTime;
+
+    if (pomodoroState.interval != null) {
+      startAt = pomodoroState.interval!.startAt;
+      intervalTime = pomodoroState.interval!.endAt
+          .difference(pomodoroState.interval!.startAt);
+    } else {
+      startAt = DateTime.now();
+      intervalTime = const Duration(minutes: 25);
+    }
+
+    return SizedBox(
+      width: 256,
+      height: 256,
+      child: CircularProgressIndicator.adaptive(
+        strokeWidth: 8,
+        backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+        value: _time.difference(startAt).inMilliseconds /
+            intervalTime.inMilliseconds,
+      ),
     );
   }
 }
-
-    // 
-    // ↓ SimpleCircularProgressBarのリンク
-    // https://pub.dev/packages/simple_circular_progress_bar
-    // 
-    // デフォルトので角を丸くする方法がわからない
-    // 
-    // Stack(
-    //   alignment: AlignmentDirectional.center,
-    //   children: [
-    //     SizedBox(
-    //       height: 256,
-    //       width: 256,
-    //       child: CircularProgressIndicator.adaptive(
-    //         strokeWidth: 8,
-    //         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-    //         value: 0.8,
-    //       ),
-    //     ),
-    //     Text(
-    //       '25分',
-    //       style: TextStyle(
-    //         fontSize: 45,
-    //         color: Theme.of(context).colorScheme.onSurface,
-    //       ),
-    //     ),
-    //   ],
-    // );
-    // 
