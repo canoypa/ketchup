@@ -7,5 +7,6 @@ class PomodoroInfo with _$PomodoroInfo {
   const factory PomodoroInfo({
     required String id,
     required String title,
+    required String categoryId,
   }) = _PomodoroInfo;
 }

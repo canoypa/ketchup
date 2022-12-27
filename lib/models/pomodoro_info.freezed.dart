@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$PomodoroInfo {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
+  String get categoryId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PomodoroInfoCopyWith<PomodoroInfo> get copyWith =>
@@ -30,7 +31,7 @@ abstract class $PomodoroInfoCopyWith<$Res> {
           PomodoroInfo value, $Res Function(PomodoroInfo) then) =
       _$PomodoroInfoCopyWithImpl<$Res, PomodoroInfo>;
   @useResult
-  $Res call({String id, String title});
+  $Res call({String id, String title, String categoryId});
 }
 
 /// @nodoc
@@ -48,6 +49,7 @@ class _$PomodoroInfoCopyWithImpl<$Res, $Val extends PomodoroInfo>
   $Res call({
     Object? id = null,
     Object? title = null,
+    Object? categoryId = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -57,6 +59,10 @@ class _$PomodoroInfoCopyWithImpl<$Res, $Val extends PomodoroInfo>
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      categoryId: null == categoryId
+          ? _value.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -70,7 +76,7 @@ abstract class _$$_PomodoroInfoCopyWith<$Res>
       __$$_PomodoroInfoCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String title});
+  $Res call({String id, String title, String categoryId});
 }
 
 /// @nodoc
@@ -86,6 +92,7 @@ class __$$_PomodoroInfoCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = null,
+    Object? categoryId = null,
   }) {
     return _then(_$_PomodoroInfo(
       id: null == id
@@ -96,6 +103,10 @@ class __$$_PomodoroInfoCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      categoryId: null == categoryId
+          ? _value.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -103,16 +114,19 @@ class __$$_PomodoroInfoCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_PomodoroInfo implements _PomodoroInfo {
-  const _$_PomodoroInfo({required this.id, required this.title});
+  const _$_PomodoroInfo(
+      {required this.id, required this.title, required this.categoryId});
 
   @override
   final String id;
   @override
   final String title;
+  @override
+  final String categoryId;
 
   @override
   String toString() {
-    return 'PomodoroInfo(id: $id, title: $title)';
+    return 'PomodoroInfo(id: $id, title: $title, categoryId: $categoryId)';
   }
 
   @override
@@ -121,11 +135,13 @@ class _$_PomodoroInfo implements _PomodoroInfo {
         (other.runtimeType == runtimeType &&
             other is _$_PomodoroInfo &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.title, title) || other.title == title));
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.categoryId, categoryId) ||
+                other.categoryId == categoryId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, title);
+  int get hashCode => Object.hash(runtimeType, id, title, categoryId);
 
   @JsonKey(ignore: true)
   @override
@@ -137,12 +153,15 @@ class _$_PomodoroInfo implements _PomodoroInfo {
 abstract class _PomodoroInfo implements PomodoroInfo {
   const factory _PomodoroInfo(
       {required final String id,
-      required final String title}) = _$_PomodoroInfo;
+      required final String title,
+      required final String categoryId}) = _$_PomodoroInfo;
 
   @override
   String get id;
   @override
   String get title;
+  @override
+  String get categoryId;
   @override
   @JsonKey(ignore: true)
   _$$_PomodoroInfoCopyWith<_$_PomodoroInfo> get copyWith =>

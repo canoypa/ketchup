@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PomodoroMemo {
+  String get pomodoroId => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   String get value => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
@@ -31,7 +32,7 @@ abstract class $PomodoroMemoCopyWith<$Res> {
           PomodoroMemo value, $Res Function(PomodoroMemo) then) =
       _$PomodoroMemoCopyWithImpl<$Res, PomodoroMemo>;
   @useResult
-  $Res call({String id, String value, DateTime createdAt});
+  $Res call({String pomodoroId, String id, String value, DateTime createdAt});
 }
 
 /// @nodoc
@@ -47,11 +48,16 @@ class _$PomodoroMemoCopyWithImpl<$Res, $Val extends PomodoroMemo>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? pomodoroId = null,
     Object? id = null,
     Object? value = null,
     Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
+      pomodoroId: null == pomodoroId
+          ? _value.pomodoroId
+          : pomodoroId // ignore: cast_nullable_to_non_nullable
+              as String,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -76,7 +82,7 @@ abstract class _$$_PomodoroMemoCopyWith<$Res>
       __$$_PomodoroMemoCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String value, DateTime createdAt});
+  $Res call({String pomodoroId, String id, String value, DateTime createdAt});
 }
 
 /// @nodoc
@@ -90,11 +96,16 @@ class __$$_PomodoroMemoCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? pomodoroId = null,
     Object? id = null,
     Object? value = null,
     Object? createdAt = null,
   }) {
     return _then(_$_PomodoroMemo(
+      pomodoroId: null == pomodoroId
+          ? _value.pomodoroId
+          : pomodoroId // ignore: cast_nullable_to_non_nullable
+              as String,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -115,8 +126,13 @@ class __$$_PomodoroMemoCopyWithImpl<$Res>
 
 class _$_PomodoroMemo implements _PomodoroMemo {
   const _$_PomodoroMemo(
-      {required this.id, required this.value, required this.createdAt});
+      {required this.pomodoroId,
+      required this.id,
+      required this.value,
+      required this.createdAt});
 
+  @override
+  final String pomodoroId;
   @override
   final String id;
   @override
@@ -126,7 +142,7 @@ class _$_PomodoroMemo implements _PomodoroMemo {
 
   @override
   String toString() {
-    return 'PomodoroMemo(id: $id, value: $value, createdAt: $createdAt)';
+    return 'PomodoroMemo(pomodoroId: $pomodoroId, id: $id, value: $value, createdAt: $createdAt)';
   }
 
   @override
@@ -134,6 +150,8 @@ class _$_PomodoroMemo implements _PomodoroMemo {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_PomodoroMemo &&
+            (identical(other.pomodoroId, pomodoroId) ||
+                other.pomodoroId == pomodoroId) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.value, value) || other.value == value) &&
             (identical(other.createdAt, createdAt) ||
@@ -141,7 +159,8 @@ class _$_PomodoroMemo implements _PomodoroMemo {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, value, createdAt);
+  int get hashCode =>
+      Object.hash(runtimeType, pomodoroId, id, value, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -152,10 +171,13 @@ class _$_PomodoroMemo implements _PomodoroMemo {
 
 abstract class _PomodoroMemo implements PomodoroMemo {
   const factory _PomodoroMemo(
-      {required final String id,
+      {required final String pomodoroId,
+      required final String id,
       required final String value,
       required final DateTime createdAt}) = _$_PomodoroMemo;
 
+  @override
+  String get pomodoroId;
   @override
   String get id;
   @override
