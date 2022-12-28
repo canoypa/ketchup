@@ -22,7 +22,7 @@ class AppDatabase {
 
   void _onCreate(Database db, int version) async {
     await db.execute('''
-    CREATE TABLE POMODORO (id TEXT PRIMARY KEY, title TEXT, category_id TEXT);
+    CREATE TABLE POMODORO (id TEXT PRIMARY KEY, title TEXT, category_id TEXT, created_at INTEGER);
     ''');
     await db.execute('''
     CREATE TABLE POMODORO_INTERVAL (id TEXT PRIMARY KEY, pomodoro_id TEXT, start_at INTEGER, end_at INTEGER);
