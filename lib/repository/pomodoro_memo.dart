@@ -1,20 +1,22 @@
 import 'package:ketchup/database/app_database.dart';
+import 'package:ketchup/models/pomodoro_memo.dart';
 
 class PomodoroMemoRepository {
-  static  final _db = AppDatabase();
-  
-  static Future getMemo(Map<String,dynamic> obj) async {
+  static final _db = AppDatabase();
+
+  static Future<List<PomodoroMemo>> getMemo(String pomodoroId) async {
     final db = await _db.database;
-    return await db.query('POMODORO_MEMO',where: 'id = ?',whereArgs: [obj['pomodoro_id']],orderBy: 'createdAt');
+    final response = await db.query(
+      'POMODORO_MEMO',
+      where: 'id = ?',
+      whereArgs: [pomodoroId],
+      orderBy: 'createdAt',
+    );
+    return response.map((e) => PomodoroMemo.fromObject(e)).toList();
   }
 
-  static Future insertMemo(Map<String,dynamic> obj) async {
+  static Future<void> insertMemo(PomodoroMemo memo) async {
     final db = await _db.database;
-    return (
-      await db.insert(
-        'POMODORO_MEMO',
-        obj
-      )
-    );
+    await db.insert('POMODORO_MEMO', memo.toObject());
   }
 }
