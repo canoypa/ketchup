@@ -13,17 +13,6 @@ static  final _db = AppDatabase();
       )
     );
   }
-  
-  static Future getLimitData(String ) async {
-    final db = await _db.database;
-    return (
-      await db.query(
-        "pomodoro",
-        orderBy: 'createdAt',
-        limit: 2
-      )
-    );
-  }
 
   static Future getCategoryData({String? category ,int? limit}) async {
     final db = await _db.database;
