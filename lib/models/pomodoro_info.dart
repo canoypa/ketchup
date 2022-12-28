@@ -8,9 +8,9 @@ class PomodoroInfo with _$PomodoroInfo {
 
   const factory PomodoroInfo({
     required String id,
-    required String title,
     required DateTime createdAt,
-    required String categoryId,
+    String? title,
+    String? categoryId,
   }) = _PomodoroInfo;
 
   factory PomodoroInfo.fromObject(Map<String, Object?> object) {
@@ -24,11 +24,14 @@ class PomodoroInfo with _$PomodoroInfo {
   }
 
   Map<String, Object?> toObject() {
-    return {
+    final obj = {
       "id": id,
-      "title": title,
       "created_at": createdAt.millisecondsSinceEpoch,
-      "category_id": categoryId,
     };
+
+    if (title != null) obj["title"] = title!;
+    if (categoryId != null) obj["category_id"] = categoryId!;
+
+    return obj;
   }
 }
