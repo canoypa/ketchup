@@ -124,12 +124,13 @@ class __$$_PomodoroIntervalCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PomodoroInterval implements _PomodoroInterval {
+class _$_PomodoroInterval extends _PomodoroInterval {
   const _$_PomodoroInterval(
       {required this.pomodoroId,
       required this.id,
       required this.startAt,
-      required this.endAt});
+      required this.endAt})
+      : super._();
 
   @override
   final String pomodoroId;
@@ -167,12 +168,13 @@ class _$_PomodoroInterval implements _PomodoroInterval {
       __$$_PomodoroIntervalCopyWithImpl<_$_PomodoroInterval>(this, _$identity);
 }
 
-abstract class _PomodoroInterval implements PomodoroInterval {
+abstract class _PomodoroInterval extends PomodoroInterval {
   const factory _PomodoroInterval(
       {required final String pomodoroId,
       required final String id,
       required final DateTime startAt,
       required final DateTime endAt}) = _$_PomodoroInterval;
+  const _PomodoroInterval._() : super._();
 
   @override
   String get pomodoroId;

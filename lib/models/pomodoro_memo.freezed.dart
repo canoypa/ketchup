@@ -124,12 +124,13 @@ class __$$_PomodoroMemoCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PomodoroMemo implements _PomodoroMemo {
+class _$_PomodoroMemo extends _PomodoroMemo {
   const _$_PomodoroMemo(
       {required this.pomodoroId,
       required this.id,
       required this.value,
-      required this.createdAt});
+      required this.createdAt})
+      : super._();
 
   @override
   final String pomodoroId;
@@ -169,12 +170,13 @@ class _$_PomodoroMemo implements _PomodoroMemo {
       __$$_PomodoroMemoCopyWithImpl<_$_PomodoroMemo>(this, _$identity);
 }
 
-abstract class _PomodoroMemo implements PomodoroMemo {
+abstract class _PomodoroMemo extends PomodoroMemo {
   const factory _PomodoroMemo(
       {required final String pomodoroId,
       required final String id,
       required final String value,
       required final DateTime createdAt}) = _$_PomodoroMemo;
+  const _PomodoroMemo._() : super._();
 
   @override
   String get pomodoroId;

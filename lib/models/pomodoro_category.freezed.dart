@@ -113,9 +113,10 @@ class __$$_PomodoroCategoryCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PomodoroCategory implements _PomodoroCategory {
+class _$_PomodoroCategory extends _PomodoroCategory {
   const _$_PomodoroCategory(
-      {required this.id, required this.title, required this.color});
+      {required this.id, required this.title, required this.color})
+      : super._();
 
   @override
   final String id;
@@ -149,11 +150,12 @@ class _$_PomodoroCategory implements _PomodoroCategory {
       __$$_PomodoroCategoryCopyWithImpl<_$_PomodoroCategory>(this, _$identity);
 }
 
-abstract class _PomodoroCategory implements PomodoroCategory {
+abstract class _PomodoroCategory extends PomodoroCategory {
   const factory _PomodoroCategory(
       {required final String id,
       required final String title,
       required final Color color}) = _$_PomodoroCategory;
+  const _PomodoroCategory._() : super._();
 
   @override
   String get id;

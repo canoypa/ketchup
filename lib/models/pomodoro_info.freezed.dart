@@ -113,9 +113,10 @@ class __$$_PomodoroInfoCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PomodoroInfo implements _PomodoroInfo {
+class _$_PomodoroInfo extends _PomodoroInfo {
   const _$_PomodoroInfo(
-      {required this.id, required this.title, required this.categoryId});
+      {required this.id, required this.title, required this.categoryId})
+      : super._();
 
   @override
   final String id;
@@ -150,11 +151,12 @@ class _$_PomodoroInfo implements _PomodoroInfo {
       __$$_PomodoroInfoCopyWithImpl<_$_PomodoroInfo>(this, _$identity);
 }
 
-abstract class _PomodoroInfo implements PomodoroInfo {
+abstract class _PomodoroInfo extends PomodoroInfo {
   const factory _PomodoroInfo(
       {required final String id,
       required final String title,
       required final String categoryId}) = _$_PomodoroInfo;
+  const _PomodoroInfo._() : super._();
 
   @override
   String get id;
