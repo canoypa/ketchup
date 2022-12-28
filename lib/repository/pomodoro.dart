@@ -3,11 +3,28 @@ import 'package:ketchup/database/app_database.dart';
 class PomodoroRepository {
 static  final _db = AppDatabase();
 
-  static Future runQuery(Map<String,dynamic> obj) async {
+  static Future getData() async {
     final db = await _db.database;
-    return await db.query('POMODORO');
+    return (
+        await db.query(
+        "pomodoro",
+        where: 'id = ?',
+        whereArgs: ["id"],
+      )
+    );
   }
-  
+
+static Future getCategoryData(String? Category) async {
+  final db = await _db.database;
+  return (
+      await db.query(
+        "pomodoro",
+        where: 'category_id = ?',
+        whereArgs: [Category??"*"],
+      )
+  );
+}
+
   static Future runInsert(Map<String,dynamic> obj) async {
     final db = await _db.database;
 
@@ -18,6 +35,7 @@ static  final _db = AppDatabase();
       )
     );
   }
+
 
 
   static Future runUpdate(Map<String,dynamic>obj) async {
@@ -31,18 +49,4 @@ static  final _db = AppDatabase();
     );
   }
 
-  static Future getHistory(Map<String,dynamic>obj) async {
-    final db = await _db.database;
-    return (
-      await db.rawQuery(
-        '''
-        SELECT POMODORO.id,POMODORO.title,color,SUM(end_at-start_at)
-        FROM POMODORO 
-        LEFT OUTER JOIN POMODORO_INTERVAL ON id = pomodoro_id, 
-        LEFT OUTER JOIN CATEGORY ON category_id = id 
-        GROUP BY POMODORO.id
-        '''
-      )
-    );
-  }
 }

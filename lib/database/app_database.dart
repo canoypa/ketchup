@@ -14,6 +14,7 @@ class AppDatabase {
   late final Future<Database> database = initializeDatabase();
 
   Future<Database> initializeDatabase() async {
+    // await deleteDatabase(join(await getDatabasesPath(), "app_database"));
     return await openDatabase(
       join(await getDatabasesPath(), "app_database"),
       version: 1,
@@ -24,9 +25,15 @@ class AppDatabase {
   void _onCreate(Database db, int version) async {
     await db.execute('''
     CREATE TABLE POMODORO (id TEXT PRIMARY KEY, title TEXT, category_id TEXT);
+    ''');
+    await db.execute('''
     CREATE TABLE POMODORO_INTERVAL (id TEXT PRIMARY KEY, pomodoro_id TEXT, start_at INTEGER, end_at INTEGER);
+    ''');
+    await db.execute('''
     CREATE TABLE POMODORO_MEMO (id TEXT PRIMARY KEY, pomodoro_id TEXT, value TEXT, createdAt INTEGER);
-    CREATE TABLE CATEGORY (id TEXT PRIMARY KEY, title TEXT, color TEXT);
+    ''');
+    await db.execute('''
+    CREATE TABLE CATEGORY (id TEXT PRIMARY KEY, title TEXT, color INTEGER);
     ''');
   }
 }

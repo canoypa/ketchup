@@ -3,18 +3,17 @@ import 'package:ketchup/database/app_database.dart';
 class CategoryRepository {
   static  final _db = AppDatabase();
 
-  static Future categoryQuery(Map<String,dynamic> obj) async {
+  static Future getALlCategory() async {
     final db = await _db.database;
-    //orderBy いるかも？
     return await db.query('CATEGORY');
   }
 
-  static Future getCategory(Map<String,dynamic> obj) async {
+  static Future getCategory(String id) async {
     final db = await _db.database;
     return (
       await db.query(
         'CATEGORY',
-        where: 'id = ?',whereArgs: [obj["category_id"]]
+        where: 'id = ?',whereArgs: [id]
       )
     );
   }
