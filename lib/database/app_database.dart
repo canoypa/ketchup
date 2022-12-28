@@ -1,5 +1,4 @@
 import 'package:ketchup/app/pomodoro.dart';
-// import 'package:ketchup/database/POMODORO.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 

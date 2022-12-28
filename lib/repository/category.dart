@@ -3,7 +3,7 @@ import 'package:ketchup/database/app_database.dart';
 class CategoryRepository {
   static  final _db = AppDatabase();
 
-  static Future getALlCategory() async {
+  static Future getAllCategory() async {
     final db = await _db.database;
     return await db.query('CATEGORY');
   }
