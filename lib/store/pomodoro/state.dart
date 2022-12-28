@@ -13,7 +13,7 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
   final Duration _defaultBreakingTime = const Duration(seconds: 5);
 
   PomodoroMeasureNotifier(PomodoroMeasure state) : super(state) {
-    saveInfo();
+    saveInfo(state.info);
   }
 
   void setInfo({
@@ -21,17 +21,15 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
     String? categoryId,
     int? time,
   }) {
-    final info = state.info.copyWith(
-      title: title ?? state.info.title,
-      categoryId: categoryId ?? state.info.categoryId,
+    state = state.maybeMap(
+      waiting: (value) => value.copyWith.info(
+        title: title,
+        categoryId: categoryId,
+      ),
+      orElse: () => throw Error(),
     );
 
-    state = state.copyWith(
-      info: info,
-      time: time,
-    );
-
-    saveInfo();
+    saveInfo(state.info);
   }
 
   /// 計測開始
@@ -48,10 +46,18 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
       endAt: endAt,
     );
 
-    state = state.copyWith(
-      status: PomodoroStatus.working,
-      interval: interval,
-      timer: Timer(_defaultPomodoroTime, doneWork),
+    state = state.maybeMap(
+      waiting: (value) => PomodoroMeasure.working(
+        info: value.info,
+        interval: interval,
+        timer: Timer(_defaultPomodoroTime, doneWork),
+      ),
+      breaking: (value) => PomodoroMeasure.working(
+        info: value.info,
+        interval: interval,
+        timer: Timer(_defaultPomodoroTime, doneWork),
+      ),
+      orElse: () => throw Error(),
     );
   }
 
@@ -59,36 +65,34 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
   void doneWork() async {
     if (kDebugMode) print("done interval");
 
-    // 早く終わった場合、その時間で更新する
-    final now = DateTime.now();
-    if (state.interval != null &&
-        state.interval!.endAt.difference(now).inMicroseconds > 0) {
-      state.timer?.cancel();
+    state = state.maybeMap(
+      working: (state) {
+        final now = DateTime.now();
+        if (state.interval.endAt.difference(now).inMicroseconds > 0) {
+          state.timer.cancel();
 
-      final updatedInterval = state.interval!.copyWith(
-        endAt: now,
-      );
-      state = state.copyWith(
-        interval: updatedInterval,
-      );
-    }
+          // 早く終わった場合、その時間で更新する
+          saveInterval(state.interval.copyWith(endAt: now));
+        } else {
+          saveInterval(state.interval);
+        }
 
-    saveInterval();
+        final startAt = DateTime.now();
+        final endAt = startAt.add(_defaultBreakingTime);
+        final interval = PomodoroInterval(
+          pomodoroId: state.info.id,
+          id: nanoid(16),
+          startAt: startAt,
+          endAt: endAt,
+        );
 
-    final startAt = DateTime.now();
-    final endAt = startAt.add(_defaultBreakingTime);
-    final interval = PomodoroInterval(
-      pomodoroId: state.info.id,
-      id: nanoid(16),
-      startAt: startAt,
-      endAt: endAt,
-    );
-
-    // 休憩時間に入る
-    state = state.copyWith(
-      status: PomodoroStatus.breaking,
-      interval: interval,
-      timer: Timer(_defaultBreakingTime, doneBreak),
+        // 休憩時間に入る
+        return state.copyWith(
+          interval: interval,
+          timer: Timer(_defaultBreakingTime, doneBreak),
+        );
+      },
+      orElse: () => throw Error(),
     );
   }
 
@@ -96,7 +100,10 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
   void doneBreak() {
     if (kDebugMode) print("done break");
 
-    state.timer?.cancel();
+    state.mapOrNull(
+      working: (state) => state.timer.cancel(),
+      breaking: (state) => state.timer.cancel(),
+    );
 
     start();
   }
@@ -105,22 +112,25 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
   void finish() {
     if (kDebugMode) print("done");
 
-    state.timer?.cancel();
+    state.mapOrNull(
+      working: (state) => state.timer.cancel(),
+      breaking: (state) => state.timer.cancel(),
+    );
 
     // 全てリセット
     final info = PomodoroInfo(id: nanoid(16), createdAt: DateTime.now());
-    state = PomodoroMeasure(info: info);
+    state = PomodoroMeasure.waiting(info: info);
   }
 
   /// タイトルなどを保存
-  Future<void> saveInfo() async {
+  Future<void> saveInfo(PomodoroInfo info) async {
     if (kDebugMode) print("save info");
 
     // db アクセス
   }
 
   /// 1ポモドーロを保存
-  Future<void> saveInterval() async {
+  Future<void> saveInterval(PomodoroInterval interval) async {
     if (kDebugMode) print("save interval");
 
     // db アクセス

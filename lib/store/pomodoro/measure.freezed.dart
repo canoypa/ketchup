@@ -16,11 +16,61 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PomodoroMeasure {
-  PomodoroStatus get status => throw _privateConstructorUsedError;
   PomodoroInfo get info => throw _privateConstructorUsedError;
-  PomodoroInterval? get interval => throw _privateConstructorUsedError;
-  int? get time => throw _privateConstructorUsedError;
-  Timer? get timer => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(PomodoroInfo info) waiting,
+    required TResult Function(
+            PomodoroInfo info, PomodoroInterval interval, Timer timer)
+        working,
+    required TResult Function(
+            PomodoroInfo info, PomodoroInterval interval, Timer timer)
+        breaking,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(PomodoroInfo info)? waiting,
+    TResult? Function(
+            PomodoroInfo info, PomodoroInterval interval, Timer timer)?
+        working,
+    TResult? Function(
+            PomodoroInfo info, PomodoroInterval interval, Timer timer)?
+        breaking,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(PomodoroInfo info)? waiting,
+    TResult Function(PomodoroInfo info, PomodoroInterval interval, Timer timer)?
+        working,
+    TResult Function(PomodoroInfo info, PomodoroInterval interval, Timer timer)?
+        breaking,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Waiting value) waiting,
+    required TResult Function(Working value) working,
+    required TResult Function(Breaking value) breaking,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Waiting value)? waiting,
+    TResult? Function(Working value)? working,
+    TResult? Function(Breaking value)? breaking,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Waiting value)? waiting,
+    TResult Function(Working value)? working,
+    TResult Function(Breaking value)? breaking,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PomodoroMeasureCopyWith<PomodoroMeasure> get copyWith =>
@@ -33,15 +83,9 @@ abstract class $PomodoroMeasureCopyWith<$Res> {
           PomodoroMeasure value, $Res Function(PomodoroMeasure) then) =
       _$PomodoroMeasureCopyWithImpl<$Res, PomodoroMeasure>;
   @useResult
-  $Res call(
-      {PomodoroStatus status,
-      PomodoroInfo info,
-      PomodoroInterval? interval,
-      int? time,
-      Timer? timer});
+  $Res call({PomodoroInfo info});
 
   $PomodoroInfoCopyWith<$Res> get info;
-  $PomodoroIntervalCopyWith<$Res>? get interval;
 }
 
 /// @nodoc
@@ -57,33 +101,13 @@ class _$PomodoroMeasureCopyWithImpl<$Res, $Val extends PomodoroMeasure>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? status = null,
     Object? info = null,
-    Object? interval = freezed,
-    Object? time = freezed,
-    Object? timer = freezed,
   }) {
     return _then(_value.copyWith(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as PomodoroStatus,
       info: null == info
           ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
               as PomodoroInfo,
-      interval: freezed == interval
-          ? _value.interval
-          : interval // ignore: cast_nullable_to_non_nullable
-              as PomodoroInterval?,
-      time: freezed == time
-          ? _value.time
-          : time // ignore: cast_nullable_to_non_nullable
-              as int?,
-      timer: freezed == timer
-          ? _value.timer
-          : timer // ignore: cast_nullable_to_non_nullable
-              as Timer?,
     ) as $Val);
   }
 
@@ -94,154 +118,531 @@ class _$PomodoroMeasureCopyWithImpl<$Res, $Val extends PomodoroMeasure>
       return _then(_value.copyWith(info: value) as $Val);
     });
   }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $PomodoroIntervalCopyWith<$Res>? get interval {
-    if (_value.interval == null) {
-      return null;
-    }
-
-    return $PomodoroIntervalCopyWith<$Res>(_value.interval!, (value) {
-      return _then(_value.copyWith(interval: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
-abstract class _$$_PomodoroMeasureCopyWith<$Res>
+abstract class _$$WaitingCopyWith<$Res>
     implements $PomodoroMeasureCopyWith<$Res> {
-  factory _$$_PomodoroMeasureCopyWith(
-          _$_PomodoroMeasure value, $Res Function(_$_PomodoroMeasure) then) =
-      __$$_PomodoroMeasureCopyWithImpl<$Res>;
+  factory _$$WaitingCopyWith(_$Waiting value, $Res Function(_$Waiting) then) =
+      __$$WaitingCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {PomodoroStatus status,
-      PomodoroInfo info,
-      PomodoroInterval? interval,
-      int? time,
-      Timer? timer});
+  $Res call({PomodoroInfo info});
 
   @override
   $PomodoroInfoCopyWith<$Res> get info;
-  @override
-  $PomodoroIntervalCopyWith<$Res>? get interval;
 }
 
 /// @nodoc
-class __$$_PomodoroMeasureCopyWithImpl<$Res>
-    extends _$PomodoroMeasureCopyWithImpl<$Res, _$_PomodoroMeasure>
-    implements _$$_PomodoroMeasureCopyWith<$Res> {
-  __$$_PomodoroMeasureCopyWithImpl(
-      _$_PomodoroMeasure _value, $Res Function(_$_PomodoroMeasure) _then)
+class __$$WaitingCopyWithImpl<$Res>
+    extends _$PomodoroMeasureCopyWithImpl<$Res, _$Waiting>
+    implements _$$WaitingCopyWith<$Res> {
+  __$$WaitingCopyWithImpl(_$Waiting _value, $Res Function(_$Waiting) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? status = null,
     Object? info = null,
-    Object? interval = freezed,
-    Object? time = freezed,
-    Object? timer = freezed,
   }) {
-    return _then(_$_PomodoroMeasure(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as PomodoroStatus,
+    return _then(_$Waiting(
       info: null == info
           ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
               as PomodoroInfo,
-      interval: freezed == interval
-          ? _value.interval
-          : interval // ignore: cast_nullable_to_non_nullable
-              as PomodoroInterval?,
-      time: freezed == time
-          ? _value.time
-          : time // ignore: cast_nullable_to_non_nullable
-              as int?,
-      timer: freezed == timer
-          ? _value.timer
-          : timer // ignore: cast_nullable_to_non_nullable
-              as Timer?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_PomodoroMeasure implements _PomodoroMeasure {
-  const _$_PomodoroMeasure(
-      {this.status = PomodoroStatus.waiting,
-      required this.info,
-      this.interval,
-      this.time,
-      this.timer});
+class _$Waiting implements Waiting {
+  const _$Waiting({required this.info});
 
   @override
-  @JsonKey()
-  final PomodoroStatus status;
-  @override
   final PomodoroInfo info;
-  @override
-  final PomodoroInterval? interval;
-  @override
-  final int? time;
-  @override
-  final Timer? timer;
 
   @override
   String toString() {
-    return 'PomodoroMeasure(status: $status, info: $info, interval: $interval, time: $time, timer: $timer)';
+    return 'PomodoroMeasure.waiting(info: $info)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PomodoroMeasure &&
-            (identical(other.status, status) || other.status == status) &&
-            (identical(other.info, info) || other.info == info) &&
-            (identical(other.interval, interval) ||
-                other.interval == interval) &&
-            (identical(other.time, time) || other.time == time) &&
-            (identical(other.timer, timer) || other.timer == timer));
+            other is _$Waiting &&
+            (identical(other.info, info) || other.info == info));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, status, info, interval, time, timer);
+  int get hashCode => Object.hash(runtimeType, info);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PomodoroMeasureCopyWith<_$_PomodoroMeasure> get copyWith =>
-      __$$_PomodoroMeasureCopyWithImpl<_$_PomodoroMeasure>(this, _$identity);
-}
-
-abstract class _PomodoroMeasure implements PomodoroMeasure {
-  const factory _PomodoroMeasure(
-      {final PomodoroStatus status,
-      required final PomodoroInfo info,
-      final PomodoroInterval? interval,
-      final int? time,
-      final Timer? timer}) = _$_PomodoroMeasure;
+  _$$WaitingCopyWith<_$Waiting> get copyWith =>
+      __$$WaitingCopyWithImpl<_$Waiting>(this, _$identity);
 
   @override
-  PomodoroStatus get status;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(PomodoroInfo info) waiting,
+    required TResult Function(
+            PomodoroInfo info, PomodoroInterval interval, Timer timer)
+        working,
+    required TResult Function(
+            PomodoroInfo info, PomodoroInterval interval, Timer timer)
+        breaking,
+  }) {
+    return waiting(info);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(PomodoroInfo info)? waiting,
+    TResult? Function(
+            PomodoroInfo info, PomodoroInterval interval, Timer timer)?
+        working,
+    TResult? Function(
+            PomodoroInfo info, PomodoroInterval interval, Timer timer)?
+        breaking,
+  }) {
+    return waiting?.call(info);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(PomodoroInfo info)? waiting,
+    TResult Function(PomodoroInfo info, PomodoroInterval interval, Timer timer)?
+        working,
+    TResult Function(PomodoroInfo info, PomodoroInterval interval, Timer timer)?
+        breaking,
+    required TResult orElse(),
+  }) {
+    if (waiting != null) {
+      return waiting(info);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Waiting value) waiting,
+    required TResult Function(Working value) working,
+    required TResult Function(Breaking value) breaking,
+  }) {
+    return waiting(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Waiting value)? waiting,
+    TResult? Function(Working value)? working,
+    TResult? Function(Breaking value)? breaking,
+  }) {
+    return waiting?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Waiting value)? waiting,
+    TResult Function(Working value)? working,
+    TResult Function(Breaking value)? breaking,
+    required TResult orElse(),
+  }) {
+    if (waiting != null) {
+      return waiting(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Waiting implements PomodoroMeasure {
+  const factory Waiting({required final PomodoroInfo info}) = _$Waiting;
+
   @override
   PomodoroInfo get info;
   @override
-  PomodoroInterval? get interval;
+  @JsonKey(ignore: true)
+  _$$WaitingCopyWith<_$Waiting> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$WorkingCopyWith<$Res>
+    implements $PomodoroMeasureCopyWith<$Res> {
+  factory _$$WorkingCopyWith(_$Working value, $Res Function(_$Working) then) =
+      __$$WorkingCopyWithImpl<$Res>;
   @override
-  int? get time;
+  @useResult
+  $Res call({PomodoroInfo info, PomodoroInterval interval, Timer timer});
+
   @override
-  Timer? get timer;
+  $PomodoroInfoCopyWith<$Res> get info;
+  $PomodoroIntervalCopyWith<$Res> get interval;
+}
+
+/// @nodoc
+class __$$WorkingCopyWithImpl<$Res>
+    extends _$PomodoroMeasureCopyWithImpl<$Res, _$Working>
+    implements _$$WorkingCopyWith<$Res> {
+  __$$WorkingCopyWithImpl(_$Working _value, $Res Function(_$Working) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? info = null,
+    Object? interval = null,
+    Object? timer = null,
+  }) {
+    return _then(_$Working(
+      info: null == info
+          ? _value.info
+          : info // ignore: cast_nullable_to_non_nullable
+              as PomodoroInfo,
+      interval: null == interval
+          ? _value.interval
+          : interval // ignore: cast_nullable_to_non_nullable
+              as PomodoroInterval,
+      timer: null == timer
+          ? _value.timer
+          : timer // ignore: cast_nullable_to_non_nullable
+              as Timer,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PomodoroIntervalCopyWith<$Res> get interval {
+    return $PomodoroIntervalCopyWith<$Res>(_value.interval, (value) {
+      return _then(_value.copyWith(interval: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$Working implements Working {
+  const _$Working(
+      {required this.info, required this.interval, required this.timer});
+
+  @override
+  final PomodoroInfo info;
+  @override
+  final PomodoroInterval interval;
+  @override
+  final Timer timer;
+
+  @override
+  String toString() {
+    return 'PomodoroMeasure.working(info: $info, interval: $interval, timer: $timer)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Working &&
+            (identical(other.info, info) || other.info == info) &&
+            (identical(other.interval, interval) ||
+                other.interval == interval) &&
+            (identical(other.timer, timer) || other.timer == timer));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, info, interval, timer);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$WorkingCopyWith<_$Working> get copyWith =>
+      __$$WorkingCopyWithImpl<_$Working>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(PomodoroInfo info) waiting,
+    required TResult Function(
+            PomodoroInfo info, PomodoroInterval interval, Timer timer)
+        working,
+    required TResult Function(
+            PomodoroInfo info, PomodoroInterval interval, Timer timer)
+        breaking,
+  }) {
+    return working(info, interval, timer);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(PomodoroInfo info)? waiting,
+    TResult? Function(
+            PomodoroInfo info, PomodoroInterval interval, Timer timer)?
+        working,
+    TResult? Function(
+            PomodoroInfo info, PomodoroInterval interval, Timer timer)?
+        breaking,
+  }) {
+    return working?.call(info, interval, timer);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(PomodoroInfo info)? waiting,
+    TResult Function(PomodoroInfo info, PomodoroInterval interval, Timer timer)?
+        working,
+    TResult Function(PomodoroInfo info, PomodoroInterval interval, Timer timer)?
+        breaking,
+    required TResult orElse(),
+  }) {
+    if (working != null) {
+      return working(info, interval, timer);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Waiting value) waiting,
+    required TResult Function(Working value) working,
+    required TResult Function(Breaking value) breaking,
+  }) {
+    return working(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Waiting value)? waiting,
+    TResult? Function(Working value)? working,
+    TResult? Function(Breaking value)? breaking,
+  }) {
+    return working?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Waiting value)? waiting,
+    TResult Function(Working value)? working,
+    TResult Function(Breaking value)? breaking,
+    required TResult orElse(),
+  }) {
+    if (working != null) {
+      return working(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Working implements PomodoroMeasure {
+  const factory Working(
+      {required final PomodoroInfo info,
+      required final PomodoroInterval interval,
+      required final Timer timer}) = _$Working;
+
+  @override
+  PomodoroInfo get info;
+  PomodoroInterval get interval;
+  Timer get timer;
   @override
   @JsonKey(ignore: true)
-  _$$_PomodoroMeasureCopyWith<_$_PomodoroMeasure> get copyWith =>
+  _$$WorkingCopyWith<_$Working> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$BreakingCopyWith<$Res>
+    implements $PomodoroMeasureCopyWith<$Res> {
+  factory _$$BreakingCopyWith(
+          _$Breaking value, $Res Function(_$Breaking) then) =
+      __$$BreakingCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({PomodoroInfo info, PomodoroInterval interval, Timer timer});
+
+  @override
+  $PomodoroInfoCopyWith<$Res> get info;
+  $PomodoroIntervalCopyWith<$Res> get interval;
+}
+
+/// @nodoc
+class __$$BreakingCopyWithImpl<$Res>
+    extends _$PomodoroMeasureCopyWithImpl<$Res, _$Breaking>
+    implements _$$BreakingCopyWith<$Res> {
+  __$$BreakingCopyWithImpl(_$Breaking _value, $Res Function(_$Breaking) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? info = null,
+    Object? interval = null,
+    Object? timer = null,
+  }) {
+    return _then(_$Breaking(
+      info: null == info
+          ? _value.info
+          : info // ignore: cast_nullable_to_non_nullable
+              as PomodoroInfo,
+      interval: null == interval
+          ? _value.interval
+          : interval // ignore: cast_nullable_to_non_nullable
+              as PomodoroInterval,
+      timer: null == timer
+          ? _value.timer
+          : timer // ignore: cast_nullable_to_non_nullable
+              as Timer,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PomodoroIntervalCopyWith<$Res> get interval {
+    return $PomodoroIntervalCopyWith<$Res>(_value.interval, (value) {
+      return _then(_value.copyWith(interval: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$Breaking implements Breaking {
+  const _$Breaking(
+      {required this.info, required this.interval, required this.timer});
+
+  @override
+  final PomodoroInfo info;
+  @override
+  final PomodoroInterval interval;
+  @override
+  final Timer timer;
+
+  @override
+  String toString() {
+    return 'PomodoroMeasure.breaking(info: $info, interval: $interval, timer: $timer)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Breaking &&
+            (identical(other.info, info) || other.info == info) &&
+            (identical(other.interval, interval) ||
+                other.interval == interval) &&
+            (identical(other.timer, timer) || other.timer == timer));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, info, interval, timer);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$BreakingCopyWith<_$Breaking> get copyWith =>
+      __$$BreakingCopyWithImpl<_$Breaking>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(PomodoroInfo info) waiting,
+    required TResult Function(
+            PomodoroInfo info, PomodoroInterval interval, Timer timer)
+        working,
+    required TResult Function(
+            PomodoroInfo info, PomodoroInterval interval, Timer timer)
+        breaking,
+  }) {
+    return breaking(info, interval, timer);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(PomodoroInfo info)? waiting,
+    TResult? Function(
+            PomodoroInfo info, PomodoroInterval interval, Timer timer)?
+        working,
+    TResult? Function(
+            PomodoroInfo info, PomodoroInterval interval, Timer timer)?
+        breaking,
+  }) {
+    return breaking?.call(info, interval, timer);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(PomodoroInfo info)? waiting,
+    TResult Function(PomodoroInfo info, PomodoroInterval interval, Timer timer)?
+        working,
+    TResult Function(PomodoroInfo info, PomodoroInterval interval, Timer timer)?
+        breaking,
+    required TResult orElse(),
+  }) {
+    if (breaking != null) {
+      return breaking(info, interval, timer);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Waiting value) waiting,
+    required TResult Function(Working value) working,
+    required TResult Function(Breaking value) breaking,
+  }) {
+    return breaking(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Waiting value)? waiting,
+    TResult? Function(Working value)? working,
+    TResult? Function(Breaking value)? breaking,
+  }) {
+    return breaking?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Waiting value)? waiting,
+    TResult Function(Working value)? working,
+    TResult Function(Breaking value)? breaking,
+    required TResult orElse(),
+  }) {
+    if (breaking != null) {
+      return breaking(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Breaking implements PomodoroMeasure {
+  const factory Breaking(
+      {required final PomodoroInfo info,
+      required final PomodoroInterval interval,
+      required final Timer timer}) = _$Breaking;
+
+  @override
+  PomodoroInfo get info;
+  PomodoroInterval get interval;
+  Timer get timer;
+  @override
+  @JsonKey(ignore: true)
+  _$$BreakingCopyWith<_$Breaking> get copyWith =>
       throw _privateConstructorUsedError;
 }

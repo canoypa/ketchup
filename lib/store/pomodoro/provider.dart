@@ -6,7 +6,7 @@ import 'package:nanoid/nanoid.dart';
 
 final pomodoroTimerProvider =
     StateNotifierProvider<PomodoroMeasureNotifier, PomodoroMeasure>((ref) {
-  final measure = PomodoroMeasure(
+  final measure = PomodoroMeasure.waiting(
     info: PomodoroInfo(id: nanoid(16), createdAt: DateTime.now()),
   );
 

@@ -6,19 +6,21 @@ import 'package:ketchup/models/pomodoro_interval.dart';
 
 part 'measure.freezed.dart';
 
-enum PomodoroStatus {
-  waiting(),
-  working(),
-  breaking(),
-}
-
 @freezed
 class PomodoroMeasure with _$PomodoroMeasure {
-  const factory PomodoroMeasure({
-    @Default(PomodoroStatus.waiting) PomodoroStatus status,
+  const factory PomodoroMeasure.waiting({
     required PomodoroInfo info,
-    PomodoroInterval? interval,
-    int? time,
-    Timer? timer,
-  }) = _PomodoroMeasure;
+  }) = Waiting;
+
+  const factory PomodoroMeasure.working({
+    required PomodoroInfo info,
+    required PomodoroInterval interval,
+    required Timer timer,
+  }) = Working;
+
+  const factory PomodoroMeasure.breaking({
+    required PomodoroInfo info,
+    required PomodoroInterval interval,
+    required Timer timer,
+  }) = Breaking;
 }
