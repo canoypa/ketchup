@@ -4,7 +4,6 @@ import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ketchup/core/router.dart';
 import 'package:ketchup/core/theme.dart';
-import 'package:ketchup/database/app_database.dart';
 
 void main() {
   runApp(
