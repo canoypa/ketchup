@@ -14,7 +14,6 @@ class AppDatabase {
   late final Future<Database> database = initializeDatabase();
 
   Future<Database> initializeDatabase() async {
-    // await deleteDatabase(join(await getDatabasesPath(), "app_database"));
     return await openDatabase(
       join(await getDatabasesPath(), "app_database"),
       version: 1,

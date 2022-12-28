@@ -3,24 +3,24 @@ import 'package:ketchup/database/app_database.dart';
 class PomodoroRepository {
 static  final _db = AppDatabase();
 
-  static Future getData() async {
+  static Future getData(String pomodoroId) async {
     final db = await _db.database;
     return (
         await db.query(
         "pomodoro",
         where: 'id = ?',
-        whereArgs: ["id"],
+        whereArgs: [pomodoroId],
       )
     );
   }
 
-static Future getCategoryData(String? Category) async {
+static Future getCategoryData(String? category) async {
   final db = await _db.database;
   return (
       await db.query(
         "pomodoro",
         where: 'category_id = ?',
-        whereArgs: [Category??"*"],
+        whereArgs: [category??"*"],
       )
   );
 }

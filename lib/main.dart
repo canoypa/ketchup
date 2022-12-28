@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:ketchup/core/router.dart';
 import 'package:ketchup/core/theme.dart';
+import 'package:ketchup/database/app_database.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    AppDatabase().database;
     return MaterialApp.router(
       title: 'Flutter Demo',
       theme: appLightTheme,
