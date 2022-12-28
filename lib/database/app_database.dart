@@ -1,4 +1,3 @@
-import 'package:ketchup/app/pomodoro.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -28,7 +27,7 @@ class AppDatabase {
     CREATE TABLE POMODORO_INTERVAL (id TEXT PRIMARY KEY, pomodoro_id TEXT, start_at INTEGER, end_at INTEGER);
     ''');
     await db.execute('''
-    CREATE TABLE POMODORO_MEMO (id TEXT PRIMARY KEY, pomodoro_id TEXT, value TEXT, createdAt INTEGER);
+    CREATE TABLE POMODORO_MEMO (id TEXT PRIMARY KEY, pomodoro_id TEXT, value TEXT, created_at INTEGER);
     ''');
     await db.execute('''
     CREATE TABLE CATEGORY (id TEXT PRIMARY KEY, title TEXT, color INTEGER);
