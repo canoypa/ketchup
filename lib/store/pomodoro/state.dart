@@ -4,47 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ketchup/models/pomodoro_info.dart';
 import 'package:ketchup/models/pomodoro_interval.dart';
+import 'package:ketchup/store/pomodoro/measure.dart';
 import 'package:nanoid/nanoid.dart';
-
-enum PomodoroStatus {
-  waiting(),
-  working(),
-  breaking(),
-}
-
-@immutable
-class PomodoroMeasure {
-  final PomodoroInfo info;
-  final PomodoroInterval? interval;
-
-  final PomodoroStatus status;
-  final int? time;
-  final Timer? timer;
-
-  const PomodoroMeasure({
-    this.status = PomodoroStatus.waiting,
-    required this.info,
-    this.interval,
-    this.time,
-    this.timer,
-  });
-
-  PomodoroMeasure copyWith({
-    PomodoroStatus? status,
-    PomodoroInfo? info,
-    int? time,
-    PomodoroInterval? interval,
-    Timer? timer,
-  }) {
-    return PomodoroMeasure(
-      status: status ?? this.status,
-      info: info ?? this.info,
-      time: time ?? this.time,
-      interval: interval ?? this.interval,
-      timer: timer,
-    );
-  }
-}
 
 class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
   // TODO: 引数とかで受け取る?
