@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$PomodoroInfo {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
   String get categoryId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -31,7 +32,7 @@ abstract class $PomodoroInfoCopyWith<$Res> {
           PomodoroInfo value, $Res Function(PomodoroInfo) then) =
       _$PomodoroInfoCopyWithImpl<$Res, PomodoroInfo>;
   @useResult
-  $Res call({String id, String title, String categoryId});
+  $Res call({String id, String title, DateTime createdAt, String categoryId});
 }
 
 /// @nodoc
@@ -49,6 +50,7 @@ class _$PomodoroInfoCopyWithImpl<$Res, $Val extends PomodoroInfo>
   $Res call({
     Object? id = null,
     Object? title = null,
+    Object? createdAt = null,
     Object? categoryId = null,
   }) {
     return _then(_value.copyWith(
@@ -60,6 +62,10 @@ class _$PomodoroInfoCopyWithImpl<$Res, $Val extends PomodoroInfo>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       categoryId: null == categoryId
           ? _value.categoryId
           : categoryId // ignore: cast_nullable_to_non_nullable
@@ -76,7 +82,7 @@ abstract class _$$_PomodoroInfoCopyWith<$Res>
       __$$_PomodoroInfoCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String title, String categoryId});
+  $Res call({String id, String title, DateTime createdAt, String categoryId});
 }
 
 /// @nodoc
@@ -92,6 +98,7 @@ class __$$_PomodoroInfoCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = null,
+    Object? createdAt = null,
     Object? categoryId = null,
   }) {
     return _then(_$_PomodoroInfo(
@@ -103,6 +110,10 @@ class __$$_PomodoroInfoCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       categoryId: null == categoryId
           ? _value.categoryId
           : categoryId // ignore: cast_nullable_to_non_nullable
@@ -115,7 +126,10 @@ class __$$_PomodoroInfoCopyWithImpl<$Res>
 
 class _$_PomodoroInfo extends _PomodoroInfo {
   const _$_PomodoroInfo(
-      {required this.id, required this.title, required this.categoryId})
+      {required this.id,
+      required this.title,
+      required this.createdAt,
+      required this.categoryId})
       : super._();
 
   @override
@@ -123,11 +137,13 @@ class _$_PomodoroInfo extends _PomodoroInfo {
   @override
   final String title;
   @override
+  final DateTime createdAt;
+  @override
   final String categoryId;
 
   @override
   String toString() {
-    return 'PomodoroInfo(id: $id, title: $title, categoryId: $categoryId)';
+    return 'PomodoroInfo(id: $id, title: $title, createdAt: $createdAt, categoryId: $categoryId)';
   }
 
   @override
@@ -137,12 +153,15 @@ class _$_PomodoroInfo extends _PomodoroInfo {
             other is _$_PomodoroInfo &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.categoryId, categoryId) ||
                 other.categoryId == categoryId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, categoryId);
+  int get hashCode =>
+      Object.hash(runtimeType, id, title, createdAt, categoryId);
 
   @JsonKey(ignore: true)
   @override
@@ -155,6 +174,7 @@ abstract class _PomodoroInfo extends PomodoroInfo {
   const factory _PomodoroInfo(
       {required final String id,
       required final String title,
+      required final DateTime createdAt,
       required final String categoryId}) = _$_PomodoroInfo;
   const _PomodoroInfo._() : super._();
 
@@ -162,6 +182,8 @@ abstract class _PomodoroInfo extends PomodoroInfo {
   String get id;
   @override
   String get title;
+  @override
+  DateTime get createdAt;
   @override
   String get categoryId;
   @override

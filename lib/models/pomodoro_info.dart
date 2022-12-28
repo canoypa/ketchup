@@ -9,6 +9,7 @@ class PomodoroInfo with _$PomodoroInfo {
   const factory PomodoroInfo({
     required String id,
     required String title,
+    required DateTime createdAt,
     required String categoryId,
   }) = _PomodoroInfo;
 
@@ -16,6 +17,8 @@ class PomodoroInfo with _$PomodoroInfo {
     return PomodoroInfo(
       id: object["id"] as String,
       title: object["title"] as String,
+      createdAt:
+          DateTime.fromMillisecondsSinceEpoch(object["created_at"] as int),
       categoryId: object["category_id"] as String,
     );
   }
@@ -24,6 +27,7 @@ class PomodoroInfo with _$PomodoroInfo {
     return {
       "id": id,
       "title": title,
+      "created_at": createdAt.millisecondsSinceEpoch,
       "category_id": categoryId,
     };
   }
