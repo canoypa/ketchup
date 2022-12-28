@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ketchup/store/pomodoro/info.dart';
-import 'package:ketchup/store/pomodoro/interval.dart';
+import 'package:ketchup/models/pomodoro_info.dart';
+import 'package:ketchup/models/pomodoro_interval.dart';
 import 'package:nanoid/nanoid.dart';
 
 enum PomodoroStatus {
@@ -23,7 +23,7 @@ class PomodoroMeasure {
 
   const PomodoroMeasure({
     this.status = PomodoroStatus.waiting,
-    this.info = const PomodoroInfo(),
+    required this.info,
     this.interval,
     this.time,
     this.timer,
@@ -51,14 +51,7 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
   final Duration _defaultPomodoroTime = const Duration(seconds: 25);
   final Duration _defaultBreakingTime = const Duration(seconds: 5);
 
-  PomodoroMeasureNotifier() : super(const PomodoroMeasure()) {
-    _initialize();
-  }
-
-  void _initialize() {
-    final info = state.info.copyWith(id: nanoid(16));
-    state = state.copyWith(info: info);
-
+  PomodoroMeasureNotifier(PomodoroMeasure state) : super(state) {
     saveInfo();
   }
 
@@ -68,8 +61,8 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
     int? time,
   }) {
     final info = state.info.copyWith(
-      title: title,
-      categoryId: categoryId,
+      title: title ?? state.info.title,
+      categoryId: categoryId ?? state.info.categoryId,
     );
 
     state = state.copyWith(
@@ -87,8 +80,12 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
     // interval を登録して計測開始
     final startAt = DateTime.now();
     final endAt = startAt.add(_defaultPomodoroTime);
-    final interval =
-        PomodoroInterval(id: nanoid(16), startAt: startAt, endAt: endAt);
+    final interval = PomodoroInterval(
+      pomodoroId: state.info.id,
+      id: nanoid(16),
+      startAt: startAt,
+      endAt: endAt,
+    );
 
     state = state.copyWith(
       status: PomodoroStatus.working,
@@ -119,8 +116,12 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
 
     final startAt = DateTime.now();
     final endAt = startAt.add(_defaultBreakingTime);
-    final interval =
-        PomodoroInterval(id: nanoid(16), startAt: startAt, endAt: endAt);
+    final interval = PomodoroInterval(
+      pomodoroId: state.info.id,
+      id: nanoid(16),
+      startAt: startAt,
+      endAt: endAt,
+    );
 
     // 休憩時間に入る
     state = state.copyWith(
@@ -146,7 +147,7 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
     state.timer?.cancel();
 
     // 全てリセット
-    final info = PomodoroInfo(id: nanoid(16));
+    final info = PomodoroInfo(id: nanoid(16), createdAt: DateTime.now());
     state = PomodoroMeasure(info: info);
   }
 
