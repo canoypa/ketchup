@@ -1,22 +1,60 @@
 import 'package:flutter/material.dart';
-import 'package:ketchup/components/Home/rest_time.dart';
-import 'package:ketchup/components/Home/toggle_button.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ketchup/store/pomodoro/provider.dart';
+import 'package:ketchup/store/pomodoro/state.dart';
+import 'package:ketchup/components/Home/timer_button.dart';
 
-class HomeFooter extends StatelessWidget {
+class HomeFooter extends ConsumerWidget {
   const HomeFooter({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final pomodoroState = ref.watch(pomodoroTimerProvider);
+
+    switch (pomodoroState.status) {
+      case PomodoroStatus.waiting:
+        return const _TimerButtons(buttonTypes: [ButtonType.start]);
+
+      case PomodoroStatus.working:
+        return const _TimerButtons(
+            message: '頑張ってください～～',
+            buttonTypes: [ButtonType.end, ButtonType.rest]);
+
+      case PomodoroStatus.breaking:
+        return const _TimerButtons(
+            message: 'しっかり休んでください～～～',
+            buttonTypes: [ButtonType.end, ButtonType.restart]);
+    }
+  }
+}
+
+class _TimerButtons extends StatelessWidget {
+  final String message;
+  final List<ButtonType> buttonTypes;
+
+  const _TimerButtons({
+    super.key,
+    this.message = '',
+    required this.buttonTypes,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: const [
-        Text('頑張ってください～～'),
+      children: [
+        Text(message),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal:32),
-          child: ToggleButton(),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Row(
+            children: [
+              for (ButtonType buttonType in buttonTypes) ...{
+                const SizedBox(width: 4),
+                Expanded(flex: 1, child: TimerButton(buttonType: buttonType)),
+                const SizedBox(width: 4),
+              }
+            ],
+          ),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal:32),
-          child: RestTime(),
-        )
       ],
     );
   }

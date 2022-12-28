@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ketchup/app/history.dart';
 import 'package:ketchup/components/History/pomodoro_card.dart';
 
 class HistoryHeadline extends StatelessWidget {
