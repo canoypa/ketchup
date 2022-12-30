@@ -87,7 +87,8 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
         );
 
         // 休憩時間に入る
-        return state.copyWith(
+        return PomodoroMeasure.breaking(
+          info: state.info,
           interval: interval,
           timer: Timer(_defaultBreakingTime, doneBreak),
         );
