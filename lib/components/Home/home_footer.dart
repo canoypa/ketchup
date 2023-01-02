@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ketchup/store/pomodoro/provider.dart';
-import 'package:ketchup/store/pomodoro/state.dart';
 import 'package:ketchup/components/Home/timer_button.dart';
+import 'package:ketchup/store/pomodoro/provider.dart';
 
 class HomeFooter extends ConsumerWidget {
   const HomeFooter({super.key});
@@ -11,20 +10,19 @@ class HomeFooter extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final pomodoroState = ref.watch(pomodoroTimerProvider);
 
-    switch (pomodoroState.status) {
-      case PomodoroStatus.waiting:
-        return const _TimerButtons(buttonTypes: [ButtonType.start]);
-
-      case PomodoroStatus.working:
-        return const _TimerButtons(
-            message: '頑張ってください～～',
-            buttonTypes: [ButtonType.end, ButtonType.rest]);
-
-      case PomodoroStatus.breaking:
-        return const _TimerButtons(
-            message: 'しっかり休んでください～～～',
-            buttonTypes: [ButtonType.end, ButtonType.restart]);
-    }
+    return pomodoroState.map(
+      waiting: (value) => const _TimerButtons(
+        buttonTypes: [ButtonType.start],
+      ),
+      working: (value) => const _TimerButtons(
+        message: '頑張ってください～～',
+        buttonTypes: [ButtonType.end, ButtonType.rest],
+      ),
+      breaking: (value) => const _TimerButtons(
+        message: 'しっかり休んでください～～～',
+        buttonTypes: [ButtonType.end, ButtonType.restart],
+      ),
+    );
   }
 }
 

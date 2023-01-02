@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:ffi';
+
 import 'package:flutter/material.dart';
-import 'package:ketchup/components/Home/circular_progress.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ketchup/components/Home/circular_progress.dart';
 import 'package:ketchup/store/pomodoro/provider.dart';
 
 class TimerArea extends StatelessWidget {
@@ -56,25 +56,27 @@ class ProgressLabelState extends ConsumerState<ProgressLabel> {
   @override
   Widget build(BuildContext context) {
     final pomodoroState = ref.watch(pomodoroTimerProvider);
-    String dispTime = '';
-    DateTime startAt;
-    Duration intervalTime;
-    int diff;
 
-    startAt = (pomodoroState.interval != null)
-        ? pomodoroState.interval!.startAt
-        : DateTime.now();
-    intervalTime = (pomodoroState.interval != null)
-        ? pomodoroState.interval!.endAt
-            .difference(pomodoroState.interval!.startAt)
-        : const Duration(minutes: 25);
+    final DateTime startAt = pomodoroState.maybeMap(
+      working: (value) => value.interval.startAt,
+      breaking: (value) => value.interval.startAt,
+      orElse: () => DateTime.now(),
+    );
+    final Duration intervalTime = pomodoroState.maybeMap(
+      working: (value) =>
+          value.interval.endAt.difference(value.interval.startAt),
+      breaking: (value) =>
+          value.interval.endAt.difference(value.interval.startAt),
+      orElse: () => const Duration(minutes: 25),
+    );
 
-    diff = _time.difference(startAt).inSeconds;
+    int diff = _time.difference(startAt).inSeconds;
     int hour = (diff / (60 * 60)).floor();
     int mod = diff % (60 * 60);
     int minutes = (mod / 60).floor();
     int second = mod % 60;
 
+    String dispTime = '';
     if (hour != 0) {
       dispTime += '$hour時間';
     }

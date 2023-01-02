@@ -1,29 +1,26 @@
 import 'package:ketchup/database/app_database.dart';
+import 'package:ketchup/models/pomodoro_interval.dart';
 
 class PomodoroIntervalRepository {
-  static  final _db = AppDatabase();
+  static final _db = AppDatabase();
 
-  static Future getInterval() async {
+  static Future<List<PomodoroInterval>> getInterval() async {
     final db = await _db.database;
-    return await db.query('POMODORO_INTERVAL');
+    final response = await db.query('POMODORO_INTERVAL');
+    return response.map((e) => PomodoroInterval.fromObject(e)).toList();
   }
 
-  static Future insert(Map<String,dynamic> obj) async {
+  static Future<void> insert(PomodoroInterval interval) async {
     final db = await _db.database;
-
-    return (
-      await db.insert(
-        'POMODORO_INTERVAL',
-        obj
-      )
-    );
+    await db.insert('POMODORO_INTERVAL', interval.toObject());
   }
 
-  static Future getTime(String pomodoroId) async {
+  static Future<int> getTime(String pomodoroId) async {
     final db = await _db.database;
-
-    return (
-        await db.rawQuery('SELECT SUM(endAt-startAt) FROM POMODORO_INTERVAL WHERE pomodoroId = ?',[pomodoroId])
+    final response = await db.rawQuery(
+      'SELECT SUM(endAt - startAt) AS result FROM POMODORO_INTERVAL WHERE pomodoro_id = ?',
+      [pomodoroId],
     );
+    return response.first["result"] as int;
   }
 }

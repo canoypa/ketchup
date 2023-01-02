@@ -1,44 +1,35 @@
 import 'package:ketchup/database/app_database.dart';
+import 'package:ketchup/models/pomodoro_category.dart';
 
 class CategoryRepository {
-  static  final _db = AppDatabase();
+  static final _db = AppDatabase();
 
-  static Future getAllCategory() async {
+  static Future<List<PomodoroCategory>> getAllCategory() async {
     final db = await _db.database;
-    return await db.query('CATEGORY');
+    final response = await db.query('CATEGORY');
+    return response.map((e) => PomodoroCategory.fromObject(e)).toList();
   }
 
-  static Future getCategory(String id) async {
+  static Future<PomodoroCategory> getCategory(String id) async {
     final db = await _db.database;
-    return (
-      await db.query(
-        'CATEGORY',
-        where: 'id = ?',whereArgs: [id]
-      )
-    );
+    final response =
+        (await db.query('CATEGORY', where: 'id = ?', whereArgs: [id]));
+    return PomodoroCategory.fromObject(response.first);
   }
 
-  static Future categoryInsert(Map<String,dynamic> obj) async {
+  static Future<void> categoryInsert(PomodoroCategory category) async {
     final db = await _db.database;
-    return (
-      await db.insert(
-        'CATEGORY',
-        obj
-      )
-    );
+    await db.insert('CATEGORY', category.toObject());
   }
 
-  static Future categoryUpdate(Map<String,dynamic>obj) async {
+  static Future<void> categoryUpdate(PomodoroCategory category) async {
     final db = await _db.database;
 
-    return (
     await db.update(
-        'CATEGORY',
-        obj,
-        where: 'id = ?',whereArgs: [obj["id"]],
-      )
+      'CATEGORY',
+      category.toObject(),
+      where: 'id = ?',
+      whereArgs: [category.id],
     );
   }
-
-  
 }

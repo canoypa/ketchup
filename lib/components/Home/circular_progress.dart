@@ -37,17 +37,18 @@ class CircularProgressState extends ConsumerState<CircularProgress>
   Widget build(BuildContext context) {
     final pomodoroState = ref.watch(pomodoroTimerProvider);
 
-    DateTime startAt;
-    Duration intervalTime;
-
-    if (pomodoroState.interval != null) {
-      startAt = pomodoroState.interval!.startAt;
-      intervalTime = pomodoroState.interval!.endAt
-          .difference(pomodoroState.interval!.startAt);
-    } else {
-      startAt = DateTime.now();
-      intervalTime = const Duration(minutes: 25);
-    }
+    final DateTime startAt = pomodoroState.maybeMap(
+      working: (value) => value.interval.startAt,
+      breaking: (value) => value.interval.startAt,
+      orElse: () => DateTime.now(),
+    );
+    final Duration intervalTime = pomodoroState.maybeMap(
+      working: (value) =>
+          value.interval.endAt.difference(value.interval.startAt),
+      breaking: (value) =>
+          value.interval.endAt.difference(value.interval.startAt),
+      orElse: () => const Duration(minutes: 25),
+    );
 
     return SizedBox(
       width: 256,

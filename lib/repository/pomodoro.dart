@@ -1,53 +1,45 @@
 import 'package:ketchup/database/app_database.dart';
+import 'package:ketchup/models/pomodoro_info.dart';
 
 class PomodoroRepository {
-static  final _db = AppDatabase();
+  static final _db = AppDatabase();
 
-  static Future getData(String pomodoroId) async {
+  static Future<PomodoroInfo> getData(String id) async {
     final db = await _db.database;
-    return (
-      await db.query(
-        "pomodoro",
-        where: 'id = ?',
-        whereArgs: [pomodoroId],
-      )
+    final response = await db.query(
+      "pomodoro",
+      where: 'id = ?',
+      whereArgs: [id],
     );
+    return PomodoroInfo.fromObject(response.first);
   }
 
-  static Future getCategoryData({String? category ,int? limit}) async {
+  static Future<List<PomodoroInfo>> getCategoryData({
+    String? category,
+    int? limit,
+  }) async {
     final db = await _db.database;
-    return (
-        await db.query(
-          "pomodoro",
-          where: 'category_id = ?',
-          whereArgs: category !=null ? [category] : null,
-          limit: limit
-        )
+    final response = await db.query(
+      "pomodoro",
+      where: 'category_id = ?',
+      whereArgs: category != null ? [category] : null,
+      limit: limit,
     );
+    return response.map((e) => PomodoroInfo.fromObject(e)).toList();
   }
 
-  static Future runInsert(Map<String,dynamic> obj) async {
+  static Future<void> runInsert(PomodoroInfo info) async {
     final db = await _db.database;
-
-    return (
-      await db.insert(
-        'POMODORO',
-        obj
-      )
-    );
+    await db.insert('POMODORO', info.toObject());
   }
 
-
-
-  static Future runUpdate(Map<String,dynamic>obj) async {
+  static Future<void> runUpdate(PomodoroInfo info) async {
     final db = await _db.database;
-    return (
     await db.update(
-        'POMODORO',
-        obj,
-        where: 'id = ?',whereArgs: [obj["pomodoro_id"]]
-      )
+      'POMODORO',
+      info.toObject(),
+      where: 'id = ?',
+      whereArgs: [info.id],
     );
   }
-
 }
