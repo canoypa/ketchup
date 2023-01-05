@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ketchup/models/pomodoro_info.dart';
 import 'package:ketchup/models/pomodoro_interval.dart';
+import 'package:ketchup/repository/pomodoro.dart';
+import 'package:ketchup/repository/pomodoro_interval.dart';
 import 'package:ketchup/store/pomodoro/measure.dart';
 import 'package:nanoid/nanoid.dart';
 
@@ -29,7 +31,7 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
       orElse: () => throw Error(),
     );
 
-    saveInfo(state.info);
+    updateInfo(state.info);
   }
 
   /// 計測開始
@@ -121,19 +123,28 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
     // 全てリセット
     final info = PomodoroInfo(id: nanoid(16), createdAt: DateTime.now());
     state = PomodoroMeasure.waiting(info: info);
+
+    saveInfo(info);
   }
 
   /// タイトルなどを保存
   Future<void> saveInfo(PomodoroInfo info) async {
     if (kDebugMode) print("save info");
 
-    // db アクセス
+    PomodoroRepository.runInsert(info);
+  }
+
+  /// タイトルなどを更新
+  Future<void> updateInfo(PomodoroInfo info) async {
+    if (kDebugMode) print("save info");
+
+    PomodoroRepository.runUpdate(info);
   }
 
   /// 1ポモドーロを保存
   Future<void> saveInterval(PomodoroInterval interval) async {
     if (kDebugMode) print("save interval");
 
-    // db アクセス
+    PomodoroIntervalRepository.insert(interval);
   }
 }
