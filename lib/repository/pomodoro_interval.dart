@@ -15,12 +15,12 @@ class PomodoroIntervalRepository {
     await db.insert('POMODORO_INTERVAL', interval.toObject());
   }
 
-  static Future<int> getTime(String pomodoroId) async {
+  static Future<Duration> getTime(String pomodoroId) async {
     final db = await _db.database;
     final response = await db.rawQuery(
       'SELECT SUM(endAt - startAt) AS result FROM POMODORO_INTERVAL WHERE pomodoro_id = ?',
       [pomodoroId],
     );
-    return response.first["result"] as int;
+    return Duration(microseconds: response.first["result"] as int);
   }
 }

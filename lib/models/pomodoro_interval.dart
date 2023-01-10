@@ -26,8 +26,8 @@ class PomodoroInterval with _$PomodoroInterval {
     return {
       "id": id,
       "pomodoro_id": pomodoroId,
-      "start_at": startAt.millisecondsSinceEpoch,
-      "end_at": endAt.millisecondsSinceEpoch,
+      "start_at": startAt.microsecondsSinceEpoch,
+      "end_at": endAt.microsecondsSinceEpoch,
     };
   }
 }
