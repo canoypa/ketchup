@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ketchup/store/category/provider.dart';
 
 final categoryChoiceState = StateProvider.autoDispose<String?>(
   (ref) => null,
-);
-
-final categoriesState = FutureProvider.autoDispose<List<String>>(
-  (ref) async {
-    return await Future.value(["勉強", "読書", "なんか"]);
-  },
 );
 
 class CategoryChoice extends ConsumerWidget {
@@ -18,7 +13,7 @@ class CategoryChoice extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final categories = ref.watch(categoriesState);
+    final categories = ref.watch(categoriesProvider);
     final choseCategory = ref.watch(categoryChoiceState);
 
     return categories.when(
@@ -30,13 +25,13 @@ class CategoryChoice extends ConsumerWidget {
                 .map((category) {
                   return ChoiceChip(
                     label: Text(
-                      category,
+                      category.title,
                       style: Theme.of(context).textTheme.labelLarge,
                     ),
-                    selected: choseCategory == category,
+                    selected: choseCategory == category.id,
                     onSelected: (b) {
                       ref.read(categoryChoiceState.notifier).state =
-                          b ? category : null;
+                          b ? category.id : null;
                     },
                   );
                 })
