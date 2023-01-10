@@ -42,7 +42,7 @@ class HistoryPage extends PageBuilder {
     return SharedAxisTransition(
       animation: animation,
       secondaryAnimation: secondaryAnimation,
-      transitionType: SharedAxisTransitionType.horizontal,
+      transitionType: SharedAxisTransitionType.vertical,
       child: child,
     );
   }
