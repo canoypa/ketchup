@@ -11,9 +11,9 @@ enum MainNavigation {
     selectedIcon: Icons.home,
   ),
   profile(
-    path: "/profile",
-    icon: Icons.person_outline,
-    selectedIcon: Icons.person,
+    path: "/history",
+    icon: Icons.history_outlined,
+    selectedIcon: Icons.history,
   ),
   settings(
     path: "/settings",
@@ -49,7 +49,7 @@ class MainLayout extends LayoutPageBuilder {
       case MainNavigation.home:
         return l10n.home;
       case MainNavigation.profile:
-        return l10n.profile;
+        return l10n.history;
       case MainNavigation.settings:
         return l10n.settings;
     }

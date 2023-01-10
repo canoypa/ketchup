@@ -4,7 +4,6 @@ import 'package:ketchup/app/history.dart';
 import 'package:ketchup/app/licenses.dart';
 import 'package:ketchup/app/main/home.dart';
 import 'package:ketchup/app/main/layout.dart';
-import 'package:ketchup/app/main/profile.dart';
 import 'package:ketchup/app/main/settings.dart';
 import 'package:ketchup/app/pomodoro.dart';
 
@@ -23,19 +22,14 @@ final appRouter = GoRouter(
           pageBuilder: const HomePage().buildPage,
         ),
         GoRoute(
-          path: "/profile",
-          pageBuilder: const ProfilePage().buildPage,
+          path: "/history",
+          pageBuilder: const HistoryPage().buildPage,
         ),
         GoRoute(
           path: "/settings",
           pageBuilder: const SettingsPage().buildPage,
         )
       ],
-    ),
-    GoRoute(
-      parentNavigatorKey: _rootNavigatorKey,
-      path: "/history",
-      pageBuilder: const HistoryPage().buildPage,
     ),
     GoRoute(
       parentNavigatorKey: _rootNavigatorKey,
