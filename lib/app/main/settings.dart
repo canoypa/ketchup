@@ -11,18 +11,22 @@ class SettingsPage extends PageBuilder {
   Widget build(BuildContext context, GoRouterState state) {
     final l10n = L10n.of(context);
 
-    return SafeArea(
-      child: Column(
-        children: [
-          Text(l10n.settings),
-          TextButton(
-            onPressed: () {
-              GoRouter.of(context).push("/licenses");
-            },
-            child: Text(l10n.license),
-          ),
-        ],
-      ),
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar.large(
+          title: Text(l10n.settings),
+        ),
+        SliverList(
+          delegate: SliverChildListDelegate([
+            TextButton(
+              onPressed: () {
+                GoRouter.of(context).push("/licenses");
+              },
+              child: Text(l10n.license),
+            ),
+          ]),
+        )
+      ],
     );
   }
 

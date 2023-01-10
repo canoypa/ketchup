@@ -23,6 +23,9 @@ class PomodoroList extends ConsumerWidget {
     return pomodoroList.when(
       data: (data) {
         return ListView(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.zero,
           children: [
             PomodoroCard(
               pomodoroTitle: 'データサイエンス',

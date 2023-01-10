@@ -37,16 +37,16 @@ class AppLicenseListState extends State<AppLicenseList> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: licenses.length,
-      itemBuilder: (context, index) {
-        final license = licenses[index];
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        childCount: licenses.length,
+        (context, index) {
+          final license = licenses[index];
 
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: Column(
+          return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              if (index != 0) const SizedBox(height: 16),
               Text(
                 license[0],
                 style: Theme.of(context).textTheme.titleMedium,
@@ -57,9 +57,9 @@ class AppLicenseListState extends State<AppLicenseList> {
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ],
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
