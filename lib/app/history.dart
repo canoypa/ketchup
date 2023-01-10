@@ -11,21 +11,17 @@ class HistoryPage extends PageBuilder {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text(
-            'これまでの頑張り',
-            style: TextStyle(
-              fontSize: 28,
-            ),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar.large(
+            title: const Text("これまでの頑張り"),
           ),
-          SizedBox(height: 16),
-          CategoryChoice(),
-          SizedBox(height: 16),
-          Expanded(
-            child: PomodoroList(),
+          SliverList(
+            delegate: SliverChildListDelegate(const [
+              CategoryChoice(),
+              SizedBox(height: 16),
+              PomodoroList(),
+            ]),
           ),
         ],
       ),
