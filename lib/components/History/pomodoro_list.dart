@@ -31,19 +31,19 @@ class PomodoroList extends ConsumerWidget {
               pomodoroTitle: 'データサイエンス',
               categoryTitle: '勉強',
               categoryColor: Colors.deepOrange.shade200,
-              minute: 80,
+              duration: const Duration(minutes: 80),
             ),
             PomodoroCard(
               pomodoroTitle: '機械学習',
               categoryTitle: '勉強',
               categoryColor: Colors.blue.shade200,
-              minute: 100,
+              duration: const Duration(minutes: 100),
             ),
             PomodoroCard(
               pomodoroTitle: 'なんか',
               categoryTitle: '読書',
               categoryColor: Colors.green.shade200,
-              minute: 0,
+              duration: const Duration(minutes: 0),
             ),
           ],
         );

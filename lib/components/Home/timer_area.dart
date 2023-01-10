@@ -1,6 +1,9 @@
 import 'dart:async';
 
+import 'package:duration/duration.dart';
+import 'package:duration/locale.dart';
 import 'package:flutter/material.dart';
+import "package:flutter_gen/gen_l10n/l10n.dart";
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ketchup/components/Home/circular_progress.dart';
 import 'package:ketchup/store/pomodoro/provider.dart';
@@ -57,41 +60,21 @@ class ProgressLabelState extends ConsumerState<ProgressLabel> {
   Widget build(BuildContext context) {
     final pomodoroState = ref.watch(pomodoroTimerProvider);
 
-    final DateTime startAt = pomodoroState.maybeMap(
-      working: (value) => value.interval.startAt,
-      breaking: (value) => value.interval.startAt,
-      orElse: () => DateTime.now(),
-    );
-    final Duration intervalTime = pomodoroState.maybeMap(
-      working: (value) =>
-          value.interval.endAt.difference(value.interval.startAt),
-      breaking: (value) =>
-          value.interval.endAt.difference(value.interval.startAt),
-      orElse: () => const Duration(minutes: 25),
+    final DateTime endAt = pomodoroState.maybeMap(
+      working: (value) => value.interval.endAt,
+      breaking: (value) => value.interval.endAt,
+      orElse: () => DateTime.now().add(const Duration(seconds: 25)), // TODO
     );
 
-    int diff = _time.difference(startAt).inSeconds;
-    int hour = (diff / (60 * 60)).floor();
-    int mod = diff % (60 * 60);
-    int minutes = (mod / 60).floor();
-    int second = mod % 60;
-
-    String dispTime = '';
-    if (hour != 0) {
-      dispTime += '$hour時間';
-    }
-    if (minutes != 0) {
-      dispTime += '$minutes分';
-    }
-    if (hour == 0 && minutes == 0 && second != 0) {
-      dispTime += '$second秒';
-    }
-    if (hour == 0 && minutes == 0 && second == 0) {
-      dispTime += '${intervalTime.inMinutes}分';
-    }
+    final diff = prettyDuration(
+      endAt.difference(_time),
+      locale: DurationLocale.fromLanguageCode(L10n.of(context).localeName) ??
+          const EnglishDurationLocale(),
+      first: true,
+    );
 
     return Text(
-      dispTime,
+      diff,
       style: TextStyle(
         fontSize: 45,
         color: Theme.of(context).colorScheme.onSurface,
