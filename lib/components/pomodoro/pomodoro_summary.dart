@@ -22,12 +22,6 @@ class PomodoroSummary extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          categoryTitle,
-          style: const TextStyle(
-            fontSize: 28,
-          ),
-        ),
         ListTile(
           isThreeLine: true,
           title: Text(pomodoroTitle),

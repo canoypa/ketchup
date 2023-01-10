@@ -11,27 +11,33 @@ class PomodoroPage extends PageBuilder {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.edit_outlined),
-            tooltip: '編集する',
-            onPressed: () {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(const SnackBar(content: Text('編集')));
-            },
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar.large(
+            title: const Text("TITLE"),
+            actions: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.edit_outlined),
+                tooltip: '編集する',
+                onPressed: () {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(const SnackBar(content: Text('編集')));
+                },
+              ),
+            ],
           ),
-        ],
-      ),
-      body: Column(
-        children: [
-          PomodoroSummary(
-              pomodoroTitle: 'データサイエンス',
-              categoryTitle: '勉強',
-              categoryColor: Colors.pink.shade800,
-              startAt: DateTime.parse('2022-10-10 12:00:00'),
-              endAt: DateTime.parse('2022-10-10 13:00:00')),
-          PomodoroMemo(),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              PomodoroSummary(
+                pomodoroTitle: 'データサイエンス',
+                categoryTitle: '勉強',
+                categoryColor: Colors.pink.shade800,
+                startAt: DateTime.parse('2022-10-10 12:00:00'),
+                endAt: DateTime.parse('2022-10-10 13:00:00'),
+              ),
+              const PomodoroMemo(),
+            ]),
+          )
         ],
       ),
     );
