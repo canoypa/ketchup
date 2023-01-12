@@ -30,7 +30,25 @@ class TimerLabel extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
+        const TextField(),
       ],
     );
+  }
+}
+
+class ChangeLabel extends StatefulWidget {
+  const ChangeLabel({super.key});
+
+  @override
+  State<ChangeLabel> createState() => _ChangeLabelState();
+}
+
+class _ChangeLabelState extends State<ChangeLabel> {
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      enabled: true,
+
+    )
   }
 }
