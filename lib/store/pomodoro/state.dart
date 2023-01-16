@@ -14,9 +14,10 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
   final Duration _defaultPomodoroTime = const Duration(seconds: 25);
   final Duration _defaultBreakingTime = const Duration(seconds: 5);
 
-  PomodoroMeasureNotifier(PomodoroMeasure state) : super(state) {
-    saveInfo(state.info);
-  }
+  // TODO: フラグ使いたくない
+  bool _isInfoSaved = false;
+
+  PomodoroMeasureNotifier(PomodoroMeasure state) : super(state);
 
   void setInfo({
     String? title,
@@ -30,8 +31,6 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
       ),
       orElse: () => throw Error(),
     );
-
-    updateInfo(state.info);
   }
 
   /// 計測開始
@@ -66,6 +65,11 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
   /// 1ポモドーロを終了
   void doneWork() async {
     if (kDebugMode) print("done interval");
+
+    if (!_isInfoSaved) {
+      await saveInfo(state.info);
+      _isInfoSaved = true;
+    }
 
     state = state.maybeMap(
       working: (state) {
@@ -132,13 +136,6 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
     if (kDebugMode) print("save info");
 
     PomodoroRepository.runInsert(info);
-  }
-
-  /// タイトルなどを更新
-  Future<void> updateInfo(PomodoroInfo info) async {
-    if (kDebugMode) print("save info");
-
-    PomodoroRepository.runUpdate(info);
   }
 
   /// 1ポモドーロを保存
