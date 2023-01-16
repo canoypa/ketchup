@@ -26,14 +26,15 @@ class PomodoroSummary extends ConsumerWidget {
 
     return Column(
       children: [
-        ListTile(
-          leading: Icon(
-            Icons.circle,
-            color: category?.color ?? Colors.blue,
-            size: 24,
+        if (category != null)
+          ListTile(
+            leading: Icon(
+              Icons.circle,
+              color: category.color,
+              size: 24,
+            ),
+            title: Text(category.title),
           ),
-          title: Text(category?.title ?? "無題"),
-        ),
         FutureBuilder(
           future: PomodoroIntervalRepository.getTime(info.id),
           builder: (context, snapshot) {
