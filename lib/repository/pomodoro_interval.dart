@@ -18,9 +18,9 @@ class PomodoroIntervalRepository {
   static Future<Duration> getTime(String pomodoroId) async {
     final db = await _db.database;
     final response = await db.rawQuery(
-      'SELECT SUM(endAt - startAt) AS result FROM POMODORO_INTERVAL WHERE pomodoro_id = ?',
+      'SELECT SUM(end_at - start_at) AS result FROM POMODORO_INTERVAL WHERE pomodoro_id = ?',
       [pomodoroId],
     );
-    return Duration(microseconds: response.first["result"] as int);
+    return Duration(microseconds: response.first["result"] as int? ?? 0);
   }
 }
