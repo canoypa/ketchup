@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ketchup/components/page_builder/page_builder.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class SettingsPage extends PageBuilder {
   const SettingsPage();
@@ -18,11 +19,27 @@ class SettingsPage extends PageBuilder {
         ),
         SliverList(
           delegate: SliverChildListDelegate([
-            TextButton(
-              onPressed: () {
-                GoRouter.of(context).push("/licenses");
-              },
-              child: Text(l10n.license),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: TextButton(
+                    onPressed: () {
+                      GoRouter.of(context).push("/licenses");
+                    },
+                    child: Text(l10n.license),
+                  ),
+                ),
+                Expanded(
+                  child: TextButton(
+                    onPressed: () {
+                      launchUrlString(
+                          "https://canoypa.github.io/ketchup/privacy");
+                    },
+                    child: Text(l10n.privacy_policy),
+                  ),
+                ),
+              ],
             ),
           ]),
         )
