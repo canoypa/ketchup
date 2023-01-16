@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 class PomodoroMemo extends StatelessWidget {
+  final String pomodoroId;
+
   const PomodoroMemo({
     super.key,
+    required this.pomodoroId,
   });
 
   @override

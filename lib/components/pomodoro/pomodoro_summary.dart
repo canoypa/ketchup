@@ -1,37 +1,56 @@
+import 'package:duration/duration.dart';
+import 'package:duration/locale.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/l10n.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ketchup/models/pomodoro_info.dart';
+import 'package:ketchup/repository/pomodoro_interval.dart';
+import 'package:ketchup/store/category/provider.dart';
 
-class PomodoroSummary extends StatelessWidget {
-  final String pomodoroTitle;
-  final String categoryTitle;
-  final Color categoryColor;
-  final DateTime startAt;
-  final DateTime endAt;
+class PomodoroSummary extends ConsumerWidget {
+  final PomodoroInfo info;
 
   const PomodoroSummary({
     super.key,
-    required this.pomodoroTitle,
-    required this.categoryTitle,
-    required this.categoryColor,
-    required this.startAt,
-    required this.endAt,
+    required this.info,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final categories = ref.watch(categoriesProvider);
+
+    final category = categories
+        .whenData((value) =>
+            value.firstWhere((element) => element.id == info.categoryId))
+        .valueOrNull;
+
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ListTile(
-          isThreeLine: true,
-          title: Text(pomodoroTitle),
-          subtitle: Text(
-              '${DateFormat('yyyy/MM/dd').format(startAt)}\n${DateFormat('HH:mm').format(startAt)}~${DateFormat('HH:mm').format(endAt)}'),
           leading: Icon(
             Icons.circle,
-            color: categoryColor,
+            color: category?.color ?? Colors.blue,
             size: 24,
           ),
+          title: Text(category?.title ?? "無題"),
+        ),
+        FutureBuilder(
+          future: PomodoroIntervalRepository.getTime(info.id),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) return const ListTile();
+
+            final diff = prettyDuration(
+              snapshot.data!,
+              locale: DurationLocale.fromLanguageCode(
+                      L10n.of(context).localeName) ??
+                  const EnglishDurationLocale(),
+              first: true,
+            );
+
+            return ListTile(
+              title: Text(diff),
+            );
+          },
         ),
       ],
     );

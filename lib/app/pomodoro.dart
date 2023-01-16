@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ketchup/components/page_builder/page_builder.dart';
 import 'package:ketchup/components/pomodoro/pomodoro_memo.dart';
 import 'package:ketchup/components/pomodoro/pomodoro_summary.dart';
+import 'package:ketchup/repository/pomodoro.dart';
 
 class PomodoroPage extends PageBuilder {
   const PomodoroPage();
@@ -11,34 +12,8 @@ class PomodoroPage extends PageBuilder {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar.large(
-            title: const Text("TITLE"),
-            actions: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.edit_outlined),
-                tooltip: '編集する',
-                onPressed: () {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(const SnackBar(content: Text('編集')));
-                },
-              ),
-            ],
-          ),
-          SliverList(
-            delegate: SliverChildListDelegate([
-              PomodoroSummary(
-                pomodoroTitle: 'データサイエンス',
-                categoryTitle: '勉強',
-                categoryColor: Colors.pink.shade800,
-                startAt: DateTime.parse('2022-10-10 12:00:00'),
-                endAt: DateTime.parse('2022-10-10 13:00:00'),
-              ),
-              const PomodoroMemo(),
-            ]),
-          )
-        ],
+      body: _Page(
+        pomodoroId: state.params["id"]!,
       ),
     );
   }
@@ -55,6 +30,48 @@ class PomodoroPage extends PageBuilder {
       secondaryAnimation: secondaryAnimation,
       transitionType: SharedAxisTransitionType.horizontal,
       child: child,
+    );
+  }
+}
+
+class _Page extends StatelessWidget {
+  final String pomodoroId;
+
+  const _Page({
+    required this.pomodoroId,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: PomodoroRepository.getData(pomodoroId),
+      builder: (context, snapshot) {
+        return CustomScrollView(
+          slivers: [
+            SliverAppBar.large(
+              title: Text(snapshot.data?.title ?? "無題"),
+              actions: <Widget>[
+                IconButton(
+                  icon: const Icon(Icons.edit_outlined),
+                  tooltip: '編集する',
+                  onPressed: () {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(const SnackBar(content: Text('編集')));
+                  },
+                ),
+              ],
+            ),
+            SliverList(
+              delegate: SliverChildListDelegate([
+                if (snapshot.data != null)
+                  PomodoroSummary(info: snapshot.data!),
+                if (snapshot.data != null)
+                  PomodoroMemo(pomodoroId: snapshot.data!.id),
+              ]),
+            )
+          ],
+        );
+      },
     );
   }
 }
