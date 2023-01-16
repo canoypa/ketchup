@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ketchup/components/History/category_choice.dart';
 import 'package:ketchup/components/History/pomodoro_card.dart';
+import 'package:ketchup/models/pomodoro_info.dart';
+import 'package:ketchup/repository/pomodoro.dart';
 
 final pomodoroListState =
-    FutureProvider.autoDispose<List<dynamic>>((ref) async {
+    FutureProvider.autoDispose<List<PomodoroInfo>>((ref) async {
   final categoryChoice = ref.watch(categoryChoiceState);
 
-  // TODO: 一覧取得する
-  return await Future.value([]);
+  return await PomodoroRepository.getCategoryData(category: categoryChoice);
 });
 
 class PomodoroList extends ConsumerWidget {
