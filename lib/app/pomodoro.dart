@@ -65,8 +65,7 @@ class _Page extends StatelessWidget {
               delegate: SliverChildListDelegate([
                 if (snapshot.data != null)
                   PomodoroSummary(info: snapshot.data!),
-                if (snapshot.data != null)
-                  PomodoroMemo(pomodoroId: snapshot.data!.id),
+                if (snapshot.data != null) Memo(pomodoroId: snapshot.data!.id),
               ]),
             )
           ],
