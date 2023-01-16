@@ -38,7 +38,7 @@ class PomodoroCard extends ConsumerWidget {
         subtitle: category != null ? Text(category.title) : null,
         trailing: _PomodoroDuration(pomodoroId: info.id),
         onTap: () {
-          GoRouter.of(context).push("/pomodoro");
+          GoRouter.of(context).push("/pomodoro/${info.id}");
         },
       ),
     );
