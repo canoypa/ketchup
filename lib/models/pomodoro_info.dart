@@ -16,10 +16,10 @@ class PomodoroInfo with _$PomodoroInfo {
   factory PomodoroInfo.fromObject(Map<String, Object?> object) {
     return PomodoroInfo(
       id: object["id"] as String,
-      title: object["title"] as String,
+      title: object["title"] as String?,
       createdAt:
           DateTime.fromMillisecondsSinceEpoch(object["created_at"] as int),
-      categoryId: object["category_id"] as String,
+      categoryId: object["category_id"] as String?,
     );
   }
 
