@@ -19,15 +19,13 @@ class TimerButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final pomodoroNotifier = ref.read(pomodoroTimerProvider.notifier);
-
     switch (buttonType) {
       case ButtonType.start:
         return _ToggleButton(
             icon: Icons.play_arrow_outlined,
             label: 'はじめる',
             onPressed: (() {
-              pomodoroNotifier.start();
+              ref.read(pomodoroTimerProvider.notifier).start();
             }));
 
       case ButtonType.end:
@@ -35,7 +33,7 @@ class TimerButton extends ConsumerWidget {
             icon: Icons.done_all,
             label: '終了する',
             onPressed: (() {
-              pomodoroNotifier.finish();
+              ref.read(pomodoroTimerProvider.notifier).finish();
             }));
 
       case ButtonType.rest:
@@ -43,7 +41,7 @@ class TimerButton extends ConsumerWidget {
             icon: Icons.done,
             label: 'さっさと休憩',
             onPressed: (() {
-              pomodoroNotifier.doneWork();
+              ref.read(pomodoroTimerProvider.notifier).doneWork();
             }));
 
       case ButtonType.restart:
@@ -51,7 +49,7 @@ class TimerButton extends ConsumerWidget {
             icon: Icons.play_arrow_outlined,
             label: 'さっさと再開する',
             onPressed: (() {
-              pomodoroNotifier.start();
+              ref.read(pomodoroTimerProvider.notifier).start();
             }));
     }
   }
