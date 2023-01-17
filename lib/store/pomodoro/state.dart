@@ -10,14 +10,17 @@ import 'package:ketchup/store/pomodoro/measure.dart';
 import 'package:nanoid/nanoid.dart';
 
 class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
-  // TODO: 引数とかで受け取る?
-  final Duration _defaultPomodoroTime = const Duration(seconds: 25);
-  final Duration _defaultBreakingTime = const Duration(seconds: 5);
+  final Duration defaultPomodoroTime;
+  final Duration defaultBreakingTime;
 
   // TODO: フラグ使いたくない
   bool _isInfoSaved = false;
 
-  PomodoroMeasureNotifier(PomodoroMeasure state) : super(state);
+  PomodoroMeasureNotifier(
+    PomodoroMeasure state, {
+    required this.defaultPomodoroTime,
+    required this.defaultBreakingTime,
+  }) : super(state);
 
   void setInfo({
     String? title,
@@ -39,7 +42,7 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
 
     // interval を登録して計測開始
     final startAt = DateTime.now();
-    final endAt = startAt.add(_defaultPomodoroTime);
+    final endAt = startAt.add(defaultPomodoroTime);
     final interval = PomodoroInterval(
       pomodoroId: state.info.id,
       id: nanoid(16),
@@ -51,12 +54,12 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
       waiting: (value) => PomodoroMeasure.working(
         info: value.info,
         interval: interval,
-        timer: Timer(_defaultPomodoroTime, doneWork),
+        timer: Timer(defaultPomodoroTime, doneWork),
       ),
       breaking: (value) => PomodoroMeasure.working(
         info: value.info,
         interval: interval,
-        timer: Timer(_defaultPomodoroTime, doneWork),
+        timer: Timer(defaultPomodoroTime, doneWork),
       ),
       orElse: () => throw Error(),
     );
@@ -84,7 +87,7 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
         }
 
         final startAt = DateTime.now();
-        final endAt = startAt.add(_defaultBreakingTime);
+        final endAt = startAt.add(defaultBreakingTime);
         final interval = PomodoroInterval(
           pomodoroId: state.info.id,
           id: nanoid(16),
@@ -96,7 +99,7 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
         return PomodoroMeasure.breaking(
           info: state.info,
           interval: interval,
-          timer: Timer(_defaultBreakingTime, doneBreak),
+          timer: Timer(defaultBreakingTime, doneBreak),
         );
       },
       orElse: () => throw Error(),
