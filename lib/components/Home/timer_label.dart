@@ -6,7 +6,13 @@ class TimerLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const TextField(),
+        const TextField(
+          textAlign: TextAlign.center,
+          decoration: InputDecoration(
+            hintText: "テキストを入力してください" ,
+            border: InputBorder.none,
+          ),
+        ),
         const SizedBox(height: 8),
         // const ChangeTitle(),
         ElevatedButton(
@@ -56,46 +62,5 @@ class _ChangeCategoryState extends State<ChangeCategory> {
         )
       ],
     );
-  }
-}
-
-class ChangeTitle extends StatefulWidget {
-  const ChangeTitle({super.key});
-
-  @override
-  State<ChangeTitle> createState() => _ChangeTitleState();
-}
-
-class _ChangeTitleState extends State<ChangeTitle> {
-  bool _isTextField = false;
-  @override
-  Widget build(BuildContext context) {
-    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      InkWell(
-        onTap: () {
-          setState(() {
-            _isTextField = !_isTextField;
-          });
-        },
-        child: Text(
-          'タイトル',
-          style: TextStyle(
-            fontSize: 22,
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          ),
-        ),
-      ),
-      _isTextField
-          ? Container(
-              margin: EdgeInsets.only(top: 20),
-              child: const TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'タイトルを入力してください',
-                ),
-              ),
-            )
-          : Container(),
-    ]);
   }
 }
