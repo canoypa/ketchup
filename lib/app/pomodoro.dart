@@ -50,16 +50,6 @@ class _Page extends StatelessWidget {
           slivers: [
             SliverAppBar.large(
               title: Text(snapshot.data?.title ?? "無題"),
-              actions: <Widget>[
-                IconButton(
-                  icon: const Icon(Icons.edit_outlined),
-                  tooltip: '編集する',
-                  onPressed: () {
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(const SnackBar(content: Text('編集')));
-                  },
-                ),
-              ],
             ),
             SliverList(
               delegate: SliverChildListDelegate([
