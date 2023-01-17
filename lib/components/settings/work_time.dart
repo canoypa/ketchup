@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ketchup/store/settings/work_time.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-final _workTimeSettingProvider = FutureProvider.autoDispose<int>((ref) async {
-  final sharedPreferences = await SharedPreferences.getInstance();
-  return sharedPreferences.getInt("default_work_time")!;
-});
 
 class WorkTimeSettingTile extends ConsumerWidget {
   const WorkTimeSettingTile({
@@ -14,7 +10,7 @@ class WorkTimeSettingTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final data = ref.watch(_workTimeSettingProvider);
+    final data = ref.watch(workTimeSettingProvider);
 
     return data.maybeMap(
       data: (data) {
@@ -31,7 +27,7 @@ class WorkTimeSettingTile extends ConsumerWidget {
             if (value != null) {
               final sharedPreferences = await SharedPreferences.getInstance();
               await sharedPreferences.setInt("default_work_time", value);
-              ref.invalidate(_workTimeSettingProvider);
+              ref.invalidate(workTimeSettingProvider);
             }
           },
         );

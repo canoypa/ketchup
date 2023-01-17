@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ketchup/store/settings/break_time.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-final _breakTimeSettingProvider = FutureProvider.autoDispose<int>((ref) async {
-  final sharedPreferences = await SharedPreferences.getInstance();
-  return sharedPreferences.getInt("default_break_time")!;
-});
 
 class BreakTimeSettingTile extends ConsumerWidget {
   const BreakTimeSettingTile({
@@ -14,7 +10,7 @@ class BreakTimeSettingTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final data = ref.watch(_breakTimeSettingProvider);
+    final data = ref.watch(breakTimeSettingProvider);
 
     return data.maybeMap(
       data: (data) {
@@ -31,7 +27,7 @@ class BreakTimeSettingTile extends ConsumerWidget {
             if (value != null) {
               final sharedPreferences = await SharedPreferences.getInstance();
               await sharedPreferences.setInt("default_break_time", value);
-              ref.invalidate(_breakTimeSettingProvider);
+              ref.invalidate(breakTimeSettingProvider);
             }
           },
         );
