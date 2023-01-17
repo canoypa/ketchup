@@ -47,7 +47,8 @@ class CircularProgressState extends ConsumerState<CircularProgress>
           value.interval.endAt.difference(value.interval.startAt),
       breaking: (value) =>
           value.interval.endAt.difference(value.interval.startAt),
-      orElse: () => const Duration(minutes: 25),
+      orElse: () =>
+          ref.watch(pomodoroTimerProvider.notifier).defaultPomodoroTime,
     );
 
     return SizedBox(

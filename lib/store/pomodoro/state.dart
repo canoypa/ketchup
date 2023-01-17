@@ -131,6 +131,8 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
     final info = PomodoroInfo(id: nanoid(16), createdAt: DateTime.now());
     state = PomodoroMeasure.waiting(info: info);
 
+    _isInfoSaved = false;
+
     saveInfo(info);
   }
 
