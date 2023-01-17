@@ -6,6 +6,7 @@ class TimerLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        /*
         Text(
           'タイトル',
           style: TextStyle(
@@ -29,8 +30,9 @@ class TimerLabel extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 16),
         const TextField(),
+        */
+        const ChangeTitle(),
         ElevatedButton(
           child: Text('Laravel'),
           onPressed: () async {
@@ -38,38 +40,40 @@ class TimerLabel extends StatelessWidget {
                 context: context,
                 builder: (_) {
                   return WillPopScope(
-                    child: ChangeLabel(),
+                    child: const ChangeCategory(),
                     onWillPop: () async => false,
                   );
                 });
           },
-        )
+      ),
+      const SizedBox(height: 16),
       ],
     );
   }
 }
 
-class ChangeLabel extends StatefulWidget {
-  const ChangeLabel({super.key});
+class ChangeCategory extends StatefulWidget {
+  const ChangeCategory({super.key});
 
   @override
-  State<ChangeLabel> createState() => _ChangeLabelState();
+  State<ChangeCategory> createState() => _ChangeCategoryState();
 }
 
-class _ChangeLabelState extends State<ChangeLabel> {
+class _ChangeCategoryState extends State<ChangeCategory> {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      title: Text('選んでね'),
+      backgroundColor: Theme.of(context).colorScheme.background,
+      title: const Text('カテゴリーを選択'),
       children: [
         SimpleDialogOption(
-          child: Text('選択肢1'),
+          child: Text('勉強'),
           onPressed: () {
             Navigator.pop(context, '1が選択されました');
           },
         ),
         SimpleDialogOption(
-          child: Text('選択肢2'),
+          child: Text('読書'),
           onPressed: () {
             Navigator.pop(context, '2が選択されました');
           },
@@ -78,7 +82,55 @@ class _ChangeLabelState extends State<ChangeLabel> {
     );
   }
 }
+
+class ChangeTitle extends StatefulWidget {
+  const ChangeTitle({super.key});
+
+  @override
+  State<ChangeTitle> createState() => _ChangeTitleState();
+}
+
+class _ChangeTitleState extends State<ChangeTitle> {
+  bool _isTextField = false;
+  @override
+  Widget build(BuildContext context) {
+
+    return 
+    /*Scaffold(
+        body: Center(
+            child:
+                  */
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      InkWell(
+        onTap: () {
+          setState(() {
+            _isTextField = !_isTextField;
+          });
+        },
+        child: Text(
+          'タイトル',
+          style: TextStyle(
+            fontSize: 22,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
+        ),
+      ),
+      _isTextField
+          ? Container(
+              margin: EdgeInsets.only(top: 20),
+              child: const TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'タイトルを入力してください',
+                ),
+              ),
+            )
+          : Container(),
+    ]);/*));*/
+  }
+}
 /*
+
 enum Categories { Flutter, React, Laravel }
 
 class _ChangeLabelState extends State<ChangeLabel> {
