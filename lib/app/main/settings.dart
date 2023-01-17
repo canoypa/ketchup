@@ -45,7 +45,9 @@ class SettingsPage extends PageBuilder {
                 child: TextButton(
                   onPressed: () {
                     launchUrlString(
-                        "https://canoypa.github.io/ketchup/privacy");
+                      "https://canoypa.github.io/ketchup/privacy",
+                      mode: LaunchMode.externalApplication,
+                    );
                   },
                   child: Text(l10n.privacy_policy),
                 ),
