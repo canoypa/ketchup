@@ -9,12 +9,40 @@ class TimerLabel extends StatelessWidget {
         const TextField(
           textAlign: TextAlign.center,
           decoration: InputDecoration(
-            hintText: "テキストを入力してください" ,
+            hintText: "テキストを入力してください",
             border: InputBorder.none,
           ),
         ),
         const SizedBox(height: 8),
+        InkWell(
+          onTap: () async {
+            final String? selectedText = await showDialog<String>(
+                context: context,
+                builder: (_) {
+                  return WillPopScope(
+                    child: const ChangeCategory(),
+                    onWillPop: () async => false,
+                  );
+                });
+          },
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.circle,
+                color: Theme.of(context).colorScheme.outline,
+              ),
+              Text(
+                'カテゴリ',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
+          ),
+        ),
         // const ChangeTitle(),
+        /*
         ElevatedButton(
           child: Text('Laravel'),
           onPressed: () async {
@@ -28,6 +56,7 @@ class TimerLabel extends StatelessWidget {
                 });
           },
         ),
+        */
         const SizedBox(height: 16),
       ],
     );
