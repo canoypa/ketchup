@@ -71,25 +71,26 @@ class ChangeCategory extends StatefulWidget {
 }
 
 class _ChangeCategoryState extends State<ChangeCategory> {
+  final List<String> categories = [
+    "勉強",
+    "読書",
+    "音楽"
+  ];
+  
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
       backgroundColor: Theme.of(context).colorScheme.background,
       title: const Text('カテゴリーを選択'),
-      children: [
-        SimpleDialogOption(
-          child: Text('勉強'),
+      children: categories.map((category) {
+        return SimpleDialogOption(
+          child: Text(category),
           onPressed: () {
-            Navigator.pop(context, '1が選択されました');
+            Navigator.pop(context, 'が選択されました');
           },
-        ),
-        SimpleDialogOption(
-          child: Text('読書'),
-          onPressed: () {
-            Navigator.pop(context, '2が選択されました');
-          },
-        )
-      ],
+        );
+      },
+      ).toList(),
     );
   }
 }
