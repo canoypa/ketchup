@@ -9,11 +9,8 @@ import 'package:ketchup/components/Home/circular_progress.dart';
 import 'package:ketchup/store/pomodoro/provider.dart';
 
 class TimerArea extends StatelessWidget {
-  final Duration progressTime;
-
   const TimerArea({
     super.key,
-    this.progressTime = const Duration(seconds: 25),
   });
 
   @override
@@ -63,7 +60,8 @@ class ProgressLabelState extends ConsumerState<ProgressLabel> {
     final DateTime endAt = pomodoroState.maybeMap(
       working: (value) => value.interval.endAt,
       breaking: (value) => value.interval.endAt,
-      orElse: () => DateTime.now().add(const Duration(seconds: 25)), // TODO
+      orElse: () => DateTime.now()
+          .add(ref.watch(pomodoroTimerProvider.notifier).defaultPomodoroTime),
     );
 
     final diff = prettyDuration(

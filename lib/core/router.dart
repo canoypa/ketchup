@@ -33,7 +33,7 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       parentNavigatorKey: _rootNavigatorKey,
-      path: "/pomodoro",
+      path: "/pomodoro/:id",
       pageBuilder: const PomodoroPage().buildPage,
     ),
     GoRoute(

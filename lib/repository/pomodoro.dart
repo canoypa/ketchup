@@ -19,10 +19,19 @@ class PomodoroRepository {
     int? limit,
   }) async {
     final db = await _db.database;
+
+    String where = "";
+    List<Object?> whereArgs = [];
+
+    if (category != null) {
+      where += "category_id = ?";
+      whereArgs.add(category);
+    }
+
     final response = await db.query(
-      "pomodoro",
-      where: 'category_id = ?',
-      whereArgs: category != null ? [category] : null,
+      "POMODORO",
+      where: where != "" ? where : null,
+      whereArgs: whereArgs,
       limit: limit,
     );
     return response.map((e) => PomodoroInfo.fromObject(e)).toList();

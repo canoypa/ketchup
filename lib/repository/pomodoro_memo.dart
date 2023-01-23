@@ -8,9 +8,9 @@ class PomodoroMemoRepository {
     final db = await _db.database;
     final response = await db.query(
       'POMODORO_MEMO',
-      where: 'id = ?',
+      where: 'pomodoro_id = ?',
       whereArgs: [pomodoroId],
-      orderBy: 'createdAt',
+      orderBy: 'created_at',
     );
     return response.map((e) => PomodoroMemo.fromObject(e)).toList();
   }

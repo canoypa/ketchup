@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ketchup/core/router.dart';
 import 'package:ketchup/core/theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(
@@ -19,6 +20,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // initial settings
+    SharedPreferences.getInstance().then((s) {
+      if (!s.containsKey("default_work_time")) {
+        s.setInt("default_work_time", 25);
+      }
+      if (!s.containsKey("default_break_time")) {
+        s.setInt("default_break_time", 5);
+      }
+    });
+
     return MaterialApp.router(
       title: 'Flutter Demo',
       theme: appLightTheme,
