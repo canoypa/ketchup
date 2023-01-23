@@ -37,18 +37,24 @@ class CircularProgressState extends ConsumerState<CircularProgress>
   Widget build(BuildContext context) {
     final pomodoroState = ref.watch(pomodoroTimerProvider);
 
-    final DateTime startAt = pomodoroState.maybeMap(
-      working: (value) => value.interval.startAt,
-      breaking: (value) => value.interval.startAt,
-      orElse: () => DateTime.now(),
-    );
-    final Duration intervalTime = pomodoroState.maybeMap(
-      working: (value) =>
-          value.interval.endAt.difference(value.interval.startAt),
-      breaking: (value) =>
-          value.interval.endAt.difference(value.interval.startAt),
-      orElse: () =>
-          ref.watch(pomodoroTimerProvider.notifier).defaultPomodoroTime,
+    final double progress = pomodoroState.map(
+      waiting: (value) {
+        return 0;
+      },
+      working: (value) {
+        final elapsed = _time.difference(value.interval.startAt).inMilliseconds;
+        final total = value.interval.endAt
+            .difference(value.interval.startAt)
+            .inMilliseconds;
+        return elapsed / total;
+      },
+      breaking: (value) {
+        final elapsed = _time.difference(value.interval.startAt).inMilliseconds;
+        final total = value.interval.endAt
+            .difference(value.interval.startAt)
+            .inMilliseconds;
+        return elapsed / total;
+      },
     );
 
     return SizedBox(
@@ -57,8 +63,7 @@ class CircularProgressState extends ConsumerState<CircularProgress>
       child: CircularProgressIndicator.adaptive(
         strokeWidth: 8,
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-        value: _time.difference(startAt).inMilliseconds /
-            intervalTime.inMilliseconds,
+        value: progress,
       ),
     );
   }
