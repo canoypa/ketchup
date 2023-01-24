@@ -1,144 +1,106 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ketchup/models/pomodoro_category.dart';
+import 'package:ketchup/repository/category.dart';
+import 'package:ketchup/store/category/provider.dart';
+import 'package:nanoid/nanoid.dart';
 
-class TimerLabel extends StatelessWidget {
-  const TimerLabel({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const TextField(
-          textAlign: TextAlign.center,
-          decoration: InputDecoration(
-            hintText: "テキストを入力してください",
-            border: InputBorder.none,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            InkWell(
-              child: Icon(
-                Icons.circle,
-                color: Theme.of(context).colorScheme.outline,
-              ),
-              onTap: () => {
-                // const ChangeColor(),
-              },
-            ),
-            InkWell(
-              onTap: () async {
-                final String? selectedText = await showDialog<String>(
-                  context: context,
-                  builder: (context) => _buildChoseCategoryDialog(context),
-                  );
-              },
-              child: Text(
-                'カテゴリ',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-      ],
-    );
-  }
+Widget _buildChoseCategoryDialog(BuildContext context) {
+  return SimpleDialog(
+    title: const Text('カテゴリーを選択'),
+    children: [
+      const SizedBox(
+        width: double.maxFinite,
+        child: CategoryChose(),
+      ),
+      AddCategoryField(),
+    ],
+  );
 }
 
-Widget _buildChoseCategoryDialog(BuildContext context){
-  final List<String> categories = ["勉強", "読書", "音楽"];
-  
-  return SimpleDialog(
-      title: const Text('カテゴリーを選択'),
-      children: [
-        ListView.builder(
+class CategoryChose extends ConsumerWidget {
+  const CategoryChose({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final categories = ref.watch(categoriesProvider);
+
+    return categories.maybeMap(
+      data: (data) {
+        return ListView.builder(
           shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.zero,
-          itemCount: categories.length,
+          itemCount: data.value.length,
           itemBuilder: (context, index) {
-            return SimpleDialogOption(
-              child: Text(categories[index]),
-              onPressed: () {
+            return ListTile(
+              leading: Icon(
+                Icons.circle,
+                color: data.value[index].color,
+              ),
+              title: Text(data.value[index].title),
+              onTap: () {
                 Navigator.pop(context, 'が選択されました');
               },
             );
           },
-        ),
-        // SimpleDialogOption(
-        //   /*child: Row(
-        //     children: [
-        //       const TextField(
-        //         key: Key("uniqueKey"),
-        //         textAlign: TextAlign.center,
-        //         decoration: InputDecoration(
-        //           hintText: "カテゴリーを入力してください",
-        //           border: InputBorder.none,
-        //         ),
-        //       ),
-        //       ElevatedButton(
-        //         child: Text("追加"),
-        //         onPressed: () {
-        //           setState(() {});
-        //         },
-        //       ),
-        //     ],
-        //   ),*/
-        //   child: Text(""),
-        // ),
-      ],
-    );
-}
-/*
-class ChangeColor extends StatefulWidget {
-  const ChangeColor({super.key});
-
-  @override
-  State<ChangeColor> createState() => _ChangeColorState();
-}
-
-class _ChangeColorState extends State<ChangeColor> {
-  // create some values
-  Color pickerColor = Color(0xff443a49);
-  Color currentColor = Color(0xff443a49);
-  void changeColor(Color color) {
-    setState(() => pickerColor = color);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: showDialog(
-        builder: (context) => AlertDialog(
-          title: const Text('Pick a color!'),
-          content: SingleChildScrollView(
-            child: MultipleChoiceBlockPicker(
-              pickerColors: currentColors,
-              onColorsChanged: changeColors,
-            ),
-          ),
-          actions: [
-            ElevatedButton(
-              child: const Text('Got it'),
-              onPressed: () {
-                setState(() => currentColor = pickerColor);
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        ), context: context,
-      ),
-      builder: (context, AsyncSnapshot<dynamic> snapshot) {
-        if (snapshot.hasData) {
-          return Container(); // replace this with the widget you want to show after the dialog is closed
-        } else {
-          return Container(); // replace this with the widget you want to show while the dialog is open
-        }
+        );
+      },
+      orElse: () {
+        return const SizedBox();
       },
     );
   }
 }
-*/
+
+class AddCategoryField extends ConsumerWidget {
+  final _inputController = TextEditingController();
+  final _currentColor = Colors.indigo;
+
+  AddCategoryField({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          InkWell(
+            onTap: () {
+              // カラーピッカー表示と _currentColor の更新
+            },
+            child: Icon(
+              Icons.circle,
+              color: _currentColor,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Flexible(
+            child: TextField(
+              controller: _inputController,
+              decoration: const InputDecoration(
+                hintText: "カテゴリーを追加",
+                border: InputBorder.none,
+              ),
+            ),
+          ),
+          ElevatedButton(
+            child: const Text("追加"),
+            onPressed: () {
+              _inputController.clear();
+
+              final category = PomodoroCategory(
+                id: nanoid(16),
+                title: _inputController.text,
+                color: _currentColor,
+              );
+              CategoryRepository.categoryInsert(category);
+
+              ref.invalidate(categoriesProvider);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
