@@ -58,13 +58,14 @@ class CategoryChose extends ConsumerWidget {
   }
 }
 
-class AddCategoryField extends ConsumerWidget {
+class AddCategoryField extends StatefulWidget {
+  @override
+  _AddCategoryFieldState createState() => _AddCategoryFieldState();
+}
+
+class _AddCategoryFieldState extends State<AddCategoryField> {
   final _inputController = TextEditingController();
   final _currentColor = Colors.indigo;
-
-  AddCategoryField({
-    super.key,
-  });
 
   void changeColor(Color color) {
     setState(() => _currentColor = color);
@@ -138,20 +139,5 @@ class AddCategoryField extends ConsumerWidget {
         ],
       ),
     );
-  }
-}
-
-class ColorChose extends StatefulWidget {
-  const ColorChose({super.key});
-  
-
-  @override
-  State<ColorChose> createState() => _ColorChoseState();
-}
-
-class _ColorChoseState extends State<ColorChose> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }
