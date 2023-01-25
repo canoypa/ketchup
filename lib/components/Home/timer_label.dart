@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ketchup/models/pomodoro_category.dart';
 import 'package:ketchup/repository/category.dart';
@@ -65,6 +66,11 @@ class AddCategoryField extends ConsumerWidget {
     super.key,
   });
 
+  void changeColor(Color color) {
+    setState(() => _currentColor = color);
+  }
+
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
@@ -74,6 +80,30 @@ class AddCategoryField extends ConsumerWidget {
           InkWell(
             onTap: () {
               // カラーピッカー表示と _currentColor の更新
+              showDialog(
+                context: context,
+                child: AlertDialog(
+                  title: const Text('表示する色を変更できます'),
+                  content: SingleChildScrollView(
+                    child: ColorPicker(
+                      pickerColor: _currentColor,
+                      onColorChanged: (color) {
+                              setState(() {
+                                _currentColor = color;
+                              });
+                            },
+                    ),),
+                  actions: <Widget>[
+                    ElevatedButton(
+                      child: const Text('変更'),
+                      onPressed: () {
+                        setState(() => currentColor = _currentColor);
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
+              );
             },
             child: Icon(
               Icons.circle,
@@ -108,5 +138,20 @@ class AddCategoryField extends ConsumerWidget {
         ],
       ),
     );
+  }
+}
+
+class ColorChose extends StatefulWidget {
+  const ColorChose({super.key});
+  
+
+  @override
+  State<ColorChose> createState() => _ColorChoseState();
+}
+
+class _ColorChoseState extends State<ColorChose> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
