@@ -11,19 +11,18 @@ class TimerLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  return SimpleDialog(
-    title: const Text('カテゴリーを選択'),
-    children: [
-      const SizedBox(
-        width: double.maxFinite,
-        child: CategoryChose(),
-      ),
-      AddCategoryField(),
-    ],
-  );
+    return SimpleDialog(
+      title: const Text('カテゴリーを選択'),
+      children: [
+        const SizedBox(
+          width: double.maxFinite,
+          child: CategoryChose(),
+        ),
+        AddCategoryField(),
+      ],
+    );
+  }
 }
-}
-
 
 class CategoryChose extends ConsumerWidget {
   const CategoryChose({super.key});
@@ -58,22 +57,21 @@ class CategoryChose extends ConsumerWidget {
   }
 }
 
-class AddCategoryField extends StatefulWidget {
+class AddCategoryField extends /*Consumer*/StatefulWidget {
   @override
   _AddCategoryFieldState createState() => _AddCategoryFieldState();
 }
 
 class _AddCategoryFieldState extends State<AddCategoryField> {
   final _inputController = TextEditingController();
-  final _currentColor = Colors.indigo;
+  Color _currentColor = Colors.indigo;
 
   void changeColor(Color color) {
-    setState(() => _currentColor = color);
+    setState(() => _currentColor = (color));
   }
 
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context /*, WidgetRef ref*/) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
@@ -83,28 +81,31 @@ class _AddCategoryFieldState extends State<AddCategoryField> {
               // カラーピッカー表示と _currentColor の更新
               showDialog(
                 context: context,
-                child: AlertDialog(
-                  title: const Text('表示する色を変更できます'),
-                  content: SingleChildScrollView(
-                    child: ColorPicker(
-                      pickerColor: _currentColor,
-                      onColorChanged: (color) {
-                              setState(() {
-                                _currentColor = color;
-                              });
-                            },
-                    ),),
-                  actions: <Widget>[
-                    ElevatedButton(
-                      child: const Text('変更'),
-                      onPressed: () {
-                        setState(() => currentColor = _currentColor);
-                        Navigator.of(context).pop();
-                      },
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('表示する色を変更できます'),
+                    content: SingleChildScrollView(
+                      child: ColorPicker(
+                        pickerColor: _currentColor,
+                        onColorChanged: (color) {
+                          setState(() {
+                            _currentColor = color;
+                          });
+                        },
+                      ),
                     ),
-                  ],
-                ),
+                  );
+                },
               );
+              actions:
+              <Widget>[
+                ElevatedButton(
+                  child: const Text('変更'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ];
             },
             child: Icon(
               Icons.circle,
@@ -133,7 +134,7 @@ class _AddCategoryFieldState extends State<AddCategoryField> {
               );
               CategoryRepository.categoryInsert(category);
 
-              ref.invalidate(categoriesProvider);
+              // ref.invalidate(categoriesProvider);
             },
           ),
         ],
