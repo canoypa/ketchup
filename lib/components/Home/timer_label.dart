@@ -5,7 +5,11 @@ import 'package:ketchup/repository/category.dart';
 import 'package:ketchup/store/category/provider.dart';
 import 'package:nanoid/nanoid.dart';
 
-Widget _buildChoseCategoryDialog(BuildContext context) {
+class TimerLabel extends StatelessWidget {
+  const TimerLabel({super.key});
+
+  @override
+  Widget build(BuildContext context) {
   return SimpleDialog(
     title: const Text('カテゴリーを選択'),
     children: [
@@ -17,6 +21,8 @@ Widget _buildChoseCategoryDialog(BuildContext context) {
     ],
   );
 }
+}
+
 
 class CategoryChose extends ConsumerWidget {
   const CategoryChose({super.key});
