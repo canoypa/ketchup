@@ -57,7 +57,7 @@ class CategoryChose extends ConsumerWidget {
   }
 }
 
-class AddCategoryField extends /*Consumer*/StatefulWidget {
+class AddCategoryField extends /*Consumer*/ StatefulWidget {
   @override
   _AddCategoryFieldState createState() => _AddCategoryFieldState();
 }
@@ -94,18 +94,17 @@ class _AddCategoryFieldState extends State<AddCategoryField> {
                         },
                       ),
                     ),
+                    actions: <Widget>[
+                      ElevatedButton(
+                        child: const Text('変更'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
                   );
                 },
               );
-              actions:
-              <Widget>[
-                ElevatedButton(
-                  child: const Text('変更'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ];
             },
             child: Icon(
               Icons.circle,
