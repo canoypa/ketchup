@@ -128,12 +128,9 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
     );
 
     // 全てリセット
+    _isInfoSaved = false;
     final info = PomodoroInfo(id: nanoid(16), createdAt: DateTime.now());
     state = PomodoroMeasure.waiting(info: info);
-
-    _isInfoSaved = false;
-
-    saveInfo(info);
   }
 
   /// タイトルなどを保存
