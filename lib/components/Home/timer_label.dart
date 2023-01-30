@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,28 +7,28 @@ import 'package:ketchup/repository/category.dart';
 import 'package:ketchup/store/category/provider.dart';
 import 'package:ketchup/store/pomodoro/provider.dart';
 import 'package:nanoid/nanoid.dart';
-import 'package:collection/collection.dart';
 
 class TimerLabel extends ConsumerWidget {
   const TimerLabel({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final timerState=ref.watch(pomodoroTimerProvider);
-    final categories=ref.watch(categoriesProvider);
+    final timerState = ref.watch(pomodoroTimerProvider);
+    final categories = ref.watch(categoriesProvider);
 
-    final selectedCategory=categories.maybeMap(
-      data: (data) {
-        return data.value.firstWhereOrNull((e) => e.id==timerState.info.categoryId);
-      },
-       orElse: () => null
-    );
+    final selectedCategory = categories.maybeMap(
+        data: (data) {
+          return data.value
+              .firstWhereOrNull((e) => e.id == timerState.info.categoryId);
+        },
+        orElse: () => null);
 
-    final bool isWaiting=timerState.maybeMap(waiting:(_)=>true , orElse: () => false);
+    final bool isWaiting =
+        timerState.maybeMap(waiting: (_) => true, orElse: () => false);
 
     return Column(
       children: [
-         TextField(
+        TextField(
           readOnly: !isWaiting,
           textAlign: TextAlign.center,
           decoration: const InputDecoration(
@@ -39,30 +40,35 @@ class TimerLabel extends ConsumerWidget {
           },
         ),
         const SizedBox(height: 8),
-        InkWell(  
-        onTap:isWaiting? ()async{
-            final selectedCategory=await showDialog<PomodoroCategory>(context: context,builder: _buildDialog);
-            
-            if(selectedCategory!=null){
-              ref.read(pomodoroTimerProvider.notifier).setInfo(categoryId: selectedCategory.id);
-            }
-          }:null,  
-        child:Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if(selectedCategory!=null)
-              Icon(
-                Icons.circle,
-                color: selectedCategory.color,
+        InkWell(
+          onTap: isWaiting
+              ? () async {
+                  final selectedCategory = await showDialog<PomodoroCategory>(
+                      context: context, builder: _buildDialog);
+
+                  if (selectedCategory != null) {
+                    ref
+                        .read(pomodoroTimerProvider.notifier)
+                        .setInfo(categoryId: selectedCategory.id);
+                  }
+                }
+              : null,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (selectedCategory != null)
+                Icon(
+                  Icons.circle,
+                  color: selectedCategory.color,
+                ),
+              Text(
+                selectedCategory?.title ?? "カテゴリーを選択",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
               ),
-            Text(
-              selectedCategory?.title??"カテゴリーを選択",
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
-            ),
-          ],
-        ),
+            ],
+          ),
         ),
         const SizedBox(height: 16),
       ],
@@ -83,7 +89,6 @@ Widget _buildDialog(BuildContext context) {
     ],
   );
 }
-
 
 class CategoryChose extends ConsumerWidget {
   const CategoryChose({super.key});
@@ -134,7 +139,7 @@ class _AddCategoryFieldState extends ConsumerState<AddCategoryField> {
   }
 
   @override
-  Widget build(BuildContext context ) {
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
@@ -193,7 +198,7 @@ class _AddCategoryFieldState extends ConsumerState<AddCategoryField> {
                 color: _currentColor,
               );
               CategoryRepository.categoryInsert(category);
-              
+
               _inputController.clear();
               ref.invalidate(categoriesProvider);
             },

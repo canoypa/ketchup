@@ -29,8 +29,8 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
   }) {
     state = state.maybeMap(
       waiting: (value) => value.copyWith.info(
-        title: title??value.info.title,
-        categoryId: categoryId??value.info.categoryId,
+        title: title ?? value.info.title,
+        categoryId: categoryId ?? value.info.categoryId,
       ),
       orElse: () => throw Error(),
     );
