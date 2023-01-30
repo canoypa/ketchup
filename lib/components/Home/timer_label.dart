@@ -4,25 +4,86 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ketchup/models/pomodoro_category.dart';
 import 'package:ketchup/repository/category.dart';
 import 'package:ketchup/store/category/provider.dart';
+import 'package:ketchup/store/pomodoro/provider.dart';
 import 'package:nanoid/nanoid.dart';
+import 'package:collection/collection.dart';
 
-class TimerLabel extends StatelessWidget {
+class TimerLabel extends ConsumerWidget {
   const TimerLabel({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return SimpleDialog(
-      title: const Text('カテゴリーを選択'),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final timerState=ref.watch(pomodoroTimerProvider);
+    final categories=ref.watch(categoriesProvider);
+
+    final selectedCategory=categories.maybeMap(
+      data: (data) {
+        return data.value.firstWhereOrNull((e) => e.id==timerState.info.categoryId);
+      },
+       orElse: () => null
+    );
+
+    final bool isWaiting=timerState.maybeMap(waiting:(_)=>true , orElse: () => false);
+
+    return Column(
       children: [
-        const SizedBox(
-          width: double.maxFinite,
-          child: CategoryChose(),
+         TextField(
+          readOnly: !isWaiting,
+          textAlign: TextAlign.center,
+          decoration: const InputDecoration(
+            hintText: "テキストを入力してください",
+            border: InputBorder.none,
+          ),
+          onSubmitted: (value) {
+            ref.read(pomodoroTimerProvider.notifier).setInfo(title: value);
+          },
         ),
-        AddCategoryField(),
+        const SizedBox(height: 8),
+        InkWell(  
+        onTap:isWaiting? ()async{
+            final selectedCategory=await showDialog<PomodoroCategory>(context: context,builder: _buildDialog);
+            
+            if(selectedCategory!=null){
+              ref.read(pomodoroTimerProvider.notifier).setInfo(categoryId: selectedCategory.id);
+            }
+          }:null,  
+        child:Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if(selectedCategory!=null)
+              Icon(
+                Icons.circle,
+                color: selectedCategory.color,
+              ),
+            Text(
+              selectedCategory?.title??"カテゴリーを選択",
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
+        ),
+        ),
+        const SizedBox(height: 16),
       ],
     );
   }
 }
+
+Widget _buildDialog(BuildContext context) {
+  return const SimpleDialog(
+    title: Text('カテゴリーを選択'),
+    children: [
+      SizedBox(
+        width: double.maxFinite,
+        height: 200,
+        child: CategoryChose(),
+      ),
+      AddCategoryField(),
+    ],
+  );
+}
+
 
 class CategoryChose extends ConsumerWidget {
   const CategoryChose({super.key});
@@ -44,7 +105,7 @@ class CategoryChose extends ConsumerWidget {
               ),
               title: Text(data.value[index].title),
               onTap: () {
-                Navigator.pop(context, 'が選択されました');
+                Navigator.pop(context, data.value[index]);
               },
             );
           },
@@ -57,12 +118,14 @@ class CategoryChose extends ConsumerWidget {
   }
 }
 
-class AddCategoryField extends /*Consumer*/ StatefulWidget {
+class AddCategoryField extends ConsumerStatefulWidget {
+  const AddCategoryField({super.key});
+
   @override
   _AddCategoryFieldState createState() => _AddCategoryFieldState();
 }
 
-class _AddCategoryFieldState extends State<AddCategoryField> {
+class _AddCategoryFieldState extends ConsumerState<AddCategoryField> {
   final _inputController = TextEditingController();
   Color _currentColor = Colors.indigo;
 
@@ -71,7 +134,7 @@ class _AddCategoryFieldState extends State<AddCategoryField> {
   }
 
   @override
-  Widget build(BuildContext context /*, WidgetRef ref*/) {
+  Widget build(BuildContext context ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
@@ -124,16 +187,15 @@ class _AddCategoryFieldState extends State<AddCategoryField> {
           ElevatedButton(
             child: const Text("追加"),
             onPressed: () {
-              _inputController.clear();
-
               final category = PomodoroCategory(
                 id: nanoid(16),
                 title: _inputController.text,
                 color: _currentColor,
               );
               CategoryRepository.categoryInsert(category);
-
-              // ref.invalidate(categoriesProvider);
+              
+              _inputController.clear();
+              ref.invalidate(categoriesProvider);
             },
           ),
         ],
