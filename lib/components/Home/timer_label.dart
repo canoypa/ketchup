@@ -81,7 +81,7 @@ class TimerLabelState extends ConsumerState<TimerLabel> {
                 ),
               ),
               Text(
-                selectedCategory?.title ?? "カテゴリーの選択",
+                selectedCategory?.title ?? "カテゴリーを選択",
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
