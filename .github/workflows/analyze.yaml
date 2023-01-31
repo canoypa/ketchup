@@ -13,7 +13,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: "3.3.5"
+          flutter-version: "3.7.0"
           cache: true
       - name: Flutter Pub Get
         run: flutter pub get
