@@ -119,8 +119,13 @@ class PomodoroMeasureNotifier extends StateNotifier<PomodoroMeasure> {
   }
 
   /// ポモドーロ全体を終了し、リセット
-  void finish() {
+  void finish() async {
     if (kDebugMode) print("done");
+
+    if (!_isInfoSaved) {
+      await saveInfo(state.info);
+      _isInfoSaved = true;
+    }
 
     state.mapOrNull(
       working: (state) => state.timer.cancel(),
