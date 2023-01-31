@@ -6,6 +6,7 @@ import 'package:ketchup/models/pomodoro_category.dart';
 import 'package:ketchup/repository/category.dart';
 import 'package:ketchup/store/category/provider.dart';
 import 'package:ketchup/store/pomodoro/provider.dart';
+import 'package:ketchup/core/constant.dart';
 import 'package:nanoid/nanoid.dart';
 
 class TimerLabel extends ConsumerStatefulWidget {
@@ -156,11 +157,7 @@ class AddCategoryField extends ConsumerStatefulWidget {
 
 class AddCategoryFieldState extends ConsumerState<AddCategoryField> {
   final _inputController = TextEditingController();
-  Color _currentColor = Colors.indigo;
-
-  void changeColor(Color color) {
-    setState(() => _currentColor = (color));
-  }
+  Color _currentColor = appBrandColor;
 
   @override
   Widget build(BuildContext context) {
