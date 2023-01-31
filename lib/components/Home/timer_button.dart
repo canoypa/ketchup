@@ -61,7 +61,6 @@ class _ToggleButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   const _ToggleButton({
-    super.key,
     required this.icon,
     required this.label,
     required this.onPressed,

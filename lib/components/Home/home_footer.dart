@@ -31,7 +31,6 @@ class _TimerButtons extends StatelessWidget {
   final List<ButtonType> buttonTypes;
 
   const _TimerButtons({
-    super.key,
     this.message = '',
     required this.buttonTypes,
   });
@@ -44,13 +43,16 @@ class _TimerButtons extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Row(
-            children: [
-              for (ButtonType buttonType in buttonTypes) ...{
-                const SizedBox(width: 4),
-                Expanded(flex: 1, child: TimerButton(buttonType: buttonType)),
-                const SizedBox(width: 4),
-              }
-            ],
+            children: buttonTypes
+                .map(
+                  (v) => Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: TimerButton(buttonType: v),
+                    ),
+                  ),
+                )
+                .toList(),
           ),
         ),
       ],
