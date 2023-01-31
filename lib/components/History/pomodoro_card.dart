@@ -19,8 +19,6 @@ class PomodoroCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final primary = Theme.of(context).colorScheme.primary;
-
     final categories = ref.watch(categoriesProvider);
 
     final category = categories
@@ -29,10 +27,6 @@ class PomodoroCard extends ConsumerWidget {
         .valueOrNull;
 
     return Card(
-      color: category != null
-          ? CustomColorTokens.fromWithHarmonize(category.color, primary)
-              .colorContainer
-          : null,
       child: ListTile(
         title: Text(info.title ?? "無題"),
         subtitle: category != null ? Text(category.title) : null,
