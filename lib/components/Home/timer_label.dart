@@ -151,10 +151,10 @@ class AddCategoryField extends ConsumerStatefulWidget {
   const AddCategoryField({super.key});
 
   @override
-  _AddCategoryFieldState createState() => _AddCategoryFieldState();
+  AddCategoryFieldState createState() => AddCategoryFieldState();
 }
 
-class _AddCategoryFieldState extends ConsumerState<AddCategoryField> {
+class AddCategoryFieldState extends ConsumerState<AddCategoryField> {
   final _inputController = TextEditingController();
   Color _currentColor = Colors.indigo;
 
