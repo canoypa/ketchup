@@ -102,14 +102,13 @@ class TimerLabelState extends ConsumerState<TimerLabel> {
 }
 
 Widget _buildDialog(BuildContext context) {
-  return const SimpleDialog(
+  return const AlertDialog(
     title: Text('カテゴリーを選択'),
-    children: [
-      SizedBox(
-        width: double.maxFinite,
-        height: 200,
-        child: CategoryChose(),
-      ),
+    content: SizedBox(
+      width: double.maxFinite,
+      child: CategoryChose(),
+    ),
+    actions: [
       AddCategoryField(),
     ],
   );
@@ -165,71 +164,68 @@ class _AddCategoryFieldState extends ConsumerState<AddCategoryField> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          InkWell(
-            onTap: () {
-              // カラーピッカー表示と _currentColor の更新
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('表示する色を変更できます'),
-                    content: SingleChildScrollView(
-                      child: ColorPicker(
-                        pickerColor: _currentColor,
-                        onColorChanged: (color) {
-                          setState(() {
-                            _currentColor = color;
-                          });
-                        },
-                      ),
+    return Row(
+      children: [
+        InkWell(
+          onTap: () {
+            // カラーピッカー表示と _currentColor の更新
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('表示する色を変更できます'),
+                  content: SingleChildScrollView(
+                    child: ColorPicker(
+                      pickerColor: _currentColor,
+                      onColorChanged: (color) {
+                        setState(() {
+                          _currentColor = color;
+                        });
+                      },
                     ),
-                    actions: <Widget>[
-                      ElevatedButton(
-                        child: const Text('変更'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-            child: Icon(
-              Icons.circle,
+                  ),
+                  actions: <Widget>[
+                    ElevatedButton(
+                      child: const Text('変更'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+          child: Icon(
+            Icons.circle,
+            color: _currentColor,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Flexible(
+          child: TextField(
+            controller: _inputController,
+            decoration: const InputDecoration(
+              hintText: "カテゴリーを追加",
+              border: InputBorder.none,
+            ),
+          ),
+        ),
+        ElevatedButton(
+          child: const Text("追加"),
+          onPressed: () {
+            final category = PomodoroCategory(
+              id: nanoid(16),
+              title: _inputController.text,
               color: _currentColor,
-            ),
-          ),
-          const SizedBox(width: 8),
-          Flexible(
-            child: TextField(
-              controller: _inputController,
-              decoration: const InputDecoration(
-                hintText: "カテゴリーを追加",
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-          ElevatedButton(
-            child: const Text("追加"),
-            onPressed: () {
-              final category = PomodoroCategory(
-                id: nanoid(16),
-                title: _inputController.text,
-                color: _currentColor,
-              );
-              CategoryRepository.categoryInsert(category);
+            );
+            CategoryRepository.categoryInsert(category);
 
-              _inputController.clear();
-              ref.invalidate(categoriesProvider);
-            },
-          ),
-        ],
-      ),
+            _inputController.clear();
+            ref.invalidate(categoriesProvider);
+          },
+        ),
+      ],
     );
   }
 }
