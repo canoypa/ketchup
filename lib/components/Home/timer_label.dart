@@ -8,31 +8,48 @@ import 'package:ketchup/store/category/provider.dart';
 import 'package:ketchup/store/pomodoro/provider.dart';
 import 'package:nanoid/nanoid.dart';
 
-class TimerLabel extends ConsumerWidget {
+class TimerLabel extends ConsumerStatefulWidget {
   const TimerLabel({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return TimerLabelState();
+  }
+}
+
+class TimerLabelState extends ConsumerState<TimerLabel> {
+  final _titleController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
     final timerState = ref.watch(pomodoroTimerProvider);
     final categories = ref.watch(categoriesProvider);
 
-    final selectedCategory = categories.maybeMap(
-        data: (data) {
-          return data.value
-              .firstWhereOrNull((e) => e.id == timerState.info.categoryId);
-        },
-        orElse: () => null);
+    // timerState とタイトルの同期 (これでいいのか？)
+    _titleController.text = timerState.info.title ?? "";
 
-    final bool isWaiting =
-        timerState.maybeMap(waiting: (_) => true, orElse: () => false);
+    final selectedCategory = categories.maybeMap(
+      data: (data) {
+        return data.value.firstWhereOrNull(
+          (e) => e.id == timerState.info.categoryId,
+        );
+      },
+      orElse: () => null,
+    );
+
+    final bool isWaiting = timerState.maybeMap(
+      waiting: (_) => true,
+      orElse: () => false,
+    );
 
     return Column(
       children: [
         TextField(
+          controller: _titleController,
           readOnly: !isWaiting,
           textAlign: TextAlign.center,
           decoration: const InputDecoration(
-            hintText: "テキストを入力してください",
+            hintText: "タイトルを入力",
             border: InputBorder.none,
           ),
           onSubmitted: (value) {
@@ -56,13 +73,15 @@ class TimerLabel extends ConsumerWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (selectedCategory != null)
-                Icon(
+              Visibility(
+                visible: selectedCategory != null,
+                child: Icon(
                   Icons.circle,
-                  color: selectedCategory.color,
+                  color: selectedCategory?.color,
                 ),
+              ),
               Text(
-                selectedCategory?.title ?? "カテゴリーを選択",
+                selectedCategory?.title ?? "カテゴリーの選択",
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
@@ -73,6 +92,12 @@ class TimerLabel extends ConsumerWidget {
         const SizedBox(height: 16),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    super.dispose();
   }
 }
 
