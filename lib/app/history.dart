@@ -20,9 +20,9 @@ class HistoryPage extends PageBuilder {
             delegate: SliverChildListDelegate(const [
               CategoryChoice(),
               SizedBox(height: 16),
-              PomodoroList(),
             ]),
           ),
+          const PomodoroList(),
         ],
       ),
     );

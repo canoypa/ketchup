@@ -23,21 +23,20 @@ class PomodoroList extends ConsumerWidget {
 
     return pomodoroList.when(
       data: (data) {
-        return ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.zero,
-          itemCount: data.length,
-          itemBuilder: (context, index) {
-            return PomodoroCard(info: data[index]);
-          },
+        return SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              return PomodoroCard(info: data[index]);
+            },
+            childCount: data.length,
+          ),
         );
       },
       loading: () {
-        return const SizedBox();
+        return const SliverToBoxAdapter();
       },
       error: (error, stackTrace) {
-        return const SizedBox();
+        return const SliverToBoxAdapter();
       },
     );
   }
