@@ -63,7 +63,7 @@ class _Input extends ConsumerWidget {
               );
               PomodoroMemoRepository.insertMemo(memo);
 
-              ref.refresh(_pomodoroMemosProvider(pomodoroId));
+              ref.invalidate(_pomodoroMemosProvider(pomodoroId));
             },
           ),
         ),
