@@ -3,7 +3,11 @@ import 'package:duration/locale.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ketchup/app/pomodoro.dart';
+import 'package:ketchup/components/History/pomodoro_list.dart';
+import 'package:ketchup/components/category/picker.dart';
 import 'package:ketchup/models/pomodoro_info.dart';
+import 'package:ketchup/repository/pomodoro.dart';
 import 'package:ketchup/repository/pomodoro_interval.dart';
 import 'package:ketchup/store/category/provider.dart';
 
@@ -34,6 +38,14 @@ class PomodoroSummary extends ConsumerWidget {
               size: 24,
             ),
             title: Text(category.title),
+            onTap: () async {
+              final category = await showCategoryPicker(context);
+
+              final newInfo = info.copyWith(categoryId: category?.id);
+              PomodoroRepository.runUpdate(newInfo);
+              ref.invalidate(pomodoroListState);
+              ref.invalidate(pomodoroStateProvider);
+            },
           ),
         FutureBuilder(
           future: PomodoroIntervalRepository.getTime(info.id),
