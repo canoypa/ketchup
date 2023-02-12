@@ -82,6 +82,21 @@ class _Page extends ConsumerWidget {
               orElse: () => null,
             ),
           ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.delete_outline),
+              tooltip: "削除する",
+              onPressed: pomodoroState.maybeWhen(
+                data: (data) => () async {
+                  if (context.canPop()) context.pop();
+
+                  await PomodoroRepository.delete(data);
+                  ref.invalidate(pomodoroListState);
+                },
+                orElse: () => null,
+              ),
+            ),
+          ],
         ),
         SliverList(
           delegate: SliverChildListDelegate(
