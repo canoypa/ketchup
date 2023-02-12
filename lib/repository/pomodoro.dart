@@ -51,4 +51,26 @@ class PomodoroRepository {
       whereArgs: [info.id],
     );
   }
+
+  static Future<void> delete(PomodoroInfo info) async {
+    final db = await _db.database;
+
+    await db.delete(
+      "POMODORO",
+      where: "id = ?",
+      whereArgs: [info.id],
+    );
+
+    // TODO: 適切な場所に移動
+    await db.delete(
+      "POMODORO_MEMO",
+      where: "pomodoro_id = ?",
+      whereArgs: [info.id],
+    );
+    await db.delete(
+      "POMODORO_INTERVAL",
+      where: "pomodoro_id = ?",
+      whereArgs: [info.id],
+    );
+  }
 }
