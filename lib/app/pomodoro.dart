@@ -1,9 +1,12 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ketchup/components/History/pomodoro_list.dart';
 import 'package:ketchup/components/page_builder/page_builder.dart';
 import 'package:ketchup/components/pomodoro/pomodoro_memo.dart';
 import 'package:ketchup/components/pomodoro/pomodoro_summary.dart';
+import 'package:ketchup/models/pomodoro_info.dart';
 import 'package:ketchup/repository/pomodoro.dart';
 
 class PomodoroPage extends PageBuilder {
@@ -34,7 +37,12 @@ class PomodoroPage extends PageBuilder {
   }
 }
 
-class _Page extends StatelessWidget {
+final pomodoroStateProvider =
+    FutureProvider.autoDispose.family<PomodoroInfo, String>((ref, id) async {
+  return await PomodoroRepository.getData(id);
+});
+
+class _Page extends ConsumerWidget {
   final String pomodoroId;
 
   const _Page({
@@ -42,25 +50,51 @@ class _Page extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: PomodoroRepository.getData(pomodoroId),
-      builder: (context, snapshot) {
-        return CustomScrollView(
-          slivers: [
-            SliverAppBar.large(
-              title: Text(snapshot.data?.title ?? "無題"),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final pomodoroState = ref.watch(pomodoroStateProvider(pomodoroId));
+
+    final TextEditingController controller = TextEditingController();
+    controller.text = pomodoroState.maybeWhen(
+      data: (data) => data.title ?? "無題",
+      orElse: () => "無題",
+    );
+
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar.large(
+          title: TextField(
+            controller: controller,
+            style: TextStyle(
+              fontSize: Theme.of(context).textTheme.titleLarge?.fontSize,
             ),
-            SliverList(
-              delegate: SliverChildListDelegate([
-                if (snapshot.data != null)
-                  PomodoroSummary(info: snapshot.data!),
-                if (snapshot.data != null) Memo(pomodoroId: snapshot.data!.id),
-              ]),
-            )
-          ],
-        );
-      },
+            decoration: const InputDecoration.collapsed(
+              hintText: "",
+              border: InputBorder.none,
+            ),
+            onSubmitted: pomodoroState.maybeWhen(
+              data: (data) => (value) {
+                final info = data.copyWith(title: value);
+                PomodoroRepository.runUpdate(info);
+
+                ref.invalidate(pomodoroListState);
+                ref.invalidate(pomodoroStateProvider);
+              },
+              orElse: () => null,
+            ),
+          ),
+        ),
+        SliverList(
+          delegate: SliverChildListDelegate(
+            pomodoroState.maybeWhen(
+              data: (data) => [
+                PomodoroSummary(info: data),
+                Memo(pomodoroId: data.id),
+              ],
+              orElse: () => [],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
